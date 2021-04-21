@@ -1,0 +1,9 @@
+<p>comment works!</p>
+
+<label>
+  Comment:
+  <input type="text" [formControl]="commentFC">
+</label>
+
+<h3>{{commentFC.value}}</h3>
+<button (click)="postComment()">Post</button>
