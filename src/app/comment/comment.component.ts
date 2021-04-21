@@ -9,9 +9,14 @@ import {CommentService} from './shared/comment.service';
 })
 export class CommentComponent implements OnInit {
   commentFC = new FormControl('');
+  comments: string[] = [];
   constructor(private commentService: CommentService) { }
 
   ngOnInit(): void {
+    this.commentService.listenForComments()
+      .subscribe(comment => {
+        this.comments.push(comment);
+      });
   }
 
   postComment(): void {

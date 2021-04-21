@@ -7,3 +7,7 @@
 
 <h3>{{commentFC.value}}</h3>
 <button (click)="postComment()">Post</button>
+
+<h4 *ngFor="let comment of comments">
+  {{comment}}
+</h4>

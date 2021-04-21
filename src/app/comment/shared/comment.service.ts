@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Socket} from 'ngx-socket-io';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,5 +11,10 @@ export class CommentService {
 
   postComment(msg: string): void {
     this.socket.emit('comment', msg);
+  }
+
+  listenForComments(): Observable<string> {
+    return this.socket
+      .fromEvent<string>('comments');
   }
 }
