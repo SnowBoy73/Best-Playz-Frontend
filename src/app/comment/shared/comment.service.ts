@@ -15,6 +15,11 @@ export class CommentService {
 
   listenForComments(): Observable<string> {
     return this.socket
-      .fromEvent<string>('comments');
+      .fromEvent<string>('newComment');
+  }
+
+  getAllComments(): Observable<string[]> {
+    return this.socket
+      .fromEvent<string[]>('allComments');
   }
 }
