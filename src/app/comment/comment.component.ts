@@ -13,6 +13,8 @@ export class CommentComponent implements OnInit, OnDestroy {
   commentFC = new FormControl('');
   comments: string[] = [];
   unsubscribe$ = new Subject();
+  loginFC = new FormControl('');
+  nickname: string |undefined;
   constructor(private commentService: CommentService) { }
 
   ngOnInit(): void {
@@ -29,19 +31,29 @@ export class CommentComponent implements OnInit, OnDestroy {
         take(1)
       )
       .subscribe(comments => {
-        console.log('cooments subscribed');
+        console.log('comments subscribed');
         this.comments = comments;
       });
+    this.commentService.connent();  // maybe not for leaderboard
   }
 
   ngOnDestroy(): void {
     console.log('Destroyed');
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+    this.commentService.disconnent();  // maybe not for leaderboard
+
   }
 
   postComment(): void {
     console.log(this.commentFC.value);
     this.commentService.postComment(this.commentFC.value);
+  }
+
+  login(): void {
+    if (this.loginFC.value) {
+    this.nickname = this.loginFC.value;
+    }
+    this.commentService.sendLogin(this.loginFC.value);
   }
 }

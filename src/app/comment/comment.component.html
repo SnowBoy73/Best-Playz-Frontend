@@ -1,13 +1,20 @@
-<p>comment works!</p>
+<div *ngIf="nickname">
+  <label>
+    Comment:
+    <input type="text" [formControl]="commentFC">
+  </label>
+  <h3>{{commentFC.value}}</h3>
+  <button (click)="postComment()">Post</button>
+  <h4 *ngFor="let comment of comments">
+    {{comment}}
+  </h4>
+</div>
 
-<label>
-  Comment:
-  <input type="text" [formControl]="commentFC">
-</label>
-
-<h3>{{commentFC.value}}</h3>
-<button (click)="postComment()">Post</button>
-
-<h4 *ngFor="let comment of comments">
-  {{comment}}
-</h4>
+<div *ngIf="!nickname">
+  <label>
+    Enter nickname:
+    <input type="text" [formControl]="loginFC">
+  </label>
+  <h3>{{loginFC.value}}</h3>
+  <button (click)="login()">Login</button>
+</div>

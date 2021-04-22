@@ -22,4 +22,17 @@ export class CommentService {
     return this.socket
       .fromEvent<string[]>('allComments');
   }
+
+  sendLogin(nickname: string): void {
+    console.log(nickname);
+    this.socket.emit('login', nickname);
+  }
+
+  disconnent(): void{
+    this.socket.disconnect();
+  }
+
+  connent(): void{
+    this.socket.connect();
+  }
 }
