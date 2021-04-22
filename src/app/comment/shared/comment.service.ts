@@ -18,6 +18,11 @@ export class CommentService {
       .fromEvent<string>('newComment');
   }
 
+  listenForClients(): Observable<string[]> {
+    return this.socket
+      .fromEvent<string[]>('clients');
+  }
+
   getAllComments(): Observable<string[]> {
     return this.socket
       .fromEvent<string[]>('allComments');

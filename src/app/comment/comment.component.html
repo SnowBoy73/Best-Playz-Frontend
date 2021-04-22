@@ -18,3 +18,11 @@
   <h3>{{loginFC.value}}</h3>
   <button (click)="login()">Login</button>
 </div>
+
+<div *ngIf="clients$ | async as clients">
+  <ul>
+    <li *ngFor="let client of clients">
+      {{client}}
+    </li>
+  </ul>
+</div>

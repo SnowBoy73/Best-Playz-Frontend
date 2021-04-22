@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {CommentService} from './shared/comment.service';
-import {Subject, Subscription} from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
 import {take, takeUntil} from 'rxjs/operators';
 
 @Component({
@@ -15,9 +15,11 @@ export class CommentComponent implements OnInit, OnDestroy {
   unsubscribe$ = new Subject();
   loginFC = new FormControl('');
   nickname: string |undefined;
+  clients$: Observable<string[]> | undefined;
   constructor(private commentService: CommentService) { }
 
   ngOnInit(): void {
+    this.clients$ = this.commentService.listenForClients();
     this.commentService.listenForComments()
       .pipe(
         takeUntil(this.unsubscribe$)
