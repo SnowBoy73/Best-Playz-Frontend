@@ -6,7 +6,7 @@
   <h3>{{commentFC.value}}</h3>
   <button (click)="postComment()">Post</button>
   <h4 *ngFor="let comment of comments">
-    {{comment}}
+    {{comment.sender.nickname}} -- {{comment.text}}
   </h4>
 </div>
 
