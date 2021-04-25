@@ -3,6 +3,7 @@ import {FormControl} from '@angular/forms';
 import {CommentService} from './shared/comment.service';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {take, takeUntil} from 'rxjs/operators';
+import {ClientCommentDto} from './shared/client-comment.dto';
 
 @Component({
   selector: 'app-comment',
@@ -15,7 +16,7 @@ export class CommentComponent implements OnInit, OnDestroy {
   unsubscribe$ = new Subject();
   loginFC = new FormControl('');
   nickname: string |undefined;
-  clients$: Observable<string[]> | undefined;
+  clients$: Observable<ClientCommentDto[]> | undefined;
   constructor(private commentService: CommentService) { }
 
   ngOnInit(): void {

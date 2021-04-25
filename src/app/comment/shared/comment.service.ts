@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Socket} from 'ngx-socket-io';
 import {Observable} from 'rxjs';
+import {ClientCommentDto} from './client-comment.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +19,9 @@ export class CommentService {
       .fromEvent<string>('newComment');
   }
 
-  listenForClients(): Observable<string[]> {
+  listenForClients(): Observable<ClientCommentDto[]> {
     return this.socket
-      .fromEvent<string[]>('clients');
+      .fromEvent<ClientCommentDto[]>('clients');
   }
 
   getAllComments(): Observable<string[]> {
