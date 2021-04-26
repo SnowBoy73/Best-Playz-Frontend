@@ -31,15 +31,25 @@ export class CommentComponent implements OnInit, OnDestroy {
         console.log('comment listened');
         this.comments.push(comment);
       });
-    this.commentService.connent();  // maybe not for leaderboard
+    this.commentService.listenForWelcome()
+      .pipe(
+        takeUntil(this.unsubscribe$)
+      )
+      .subscribe(welcome => {
+        this.comments = welcome.comments;
+        this.client = this.commentService.client = welcome.client;
+      });
+    if (this.commentService.client) {
+      this.commentService.sendLogin(this.commentService.client.nickname);
+    }
+    // this.commentService.connent();  // Removed to stop reconnecting between highscores
   }
 
   ngOnDestroy(): void {
     console.log('Destroyed');
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-    this.commentService.disconnent();  // maybe not for leaderboard
-
+    // this.commentService.disconnent();  // Removed to stay connected between highscores
   }
 
   postComment(): void {
@@ -49,14 +59,6 @@ export class CommentComponent implements OnInit, OnDestroy {
 
   login(): void {
     if (this.loginFC.value) {
-      this.commentService.listenForWelcome()
-        .pipe(
-          takeUntil(this.unsubscribe$)
-        )
-        .subscribe(welcome => {
-          this.comments = welcome.comments;
-          this.client = welcome.client;
-        });
       // this.nickname = this.loginFC.value;
       this.commentService.sendLogin(this.loginFC.value);
     }

@@ -9,6 +9,7 @@ import {WelcomeDto} from './welcome.dto';
   providedIn: 'root'
 })
 export class CommentService {
+  client: CommentClient | undefined;
 
   constructor(private socket: Socket ) { }
 
