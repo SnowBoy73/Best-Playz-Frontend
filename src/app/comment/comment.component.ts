@@ -3,8 +3,8 @@ import {FormControl} from '@angular/forms';
 import {CommentService} from './shared/comment.service';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {take, takeUntil} from 'rxjs/operators';
-import {CommentClientModel} from './shared/comment-client.model';
-import {CommentModel} from './shared/comment.model';
+import {CommentClient} from './shared/comment.client';
+import {Comment} from './shared/comment';
 
 @Component({
   selector: 'app-comment',
@@ -13,11 +13,12 @@ import {CommentModel} from './shared/comment.model';
 })
 export class CommentComponent implements OnInit, OnDestroy {
   commentFC = new FormControl('');
-  comments: CommentModel[] = [];
+  comments: Comment[] = [];
   unsubscribe$ = new Subject();
   loginFC = new FormControl('');
-  nickname: string |undefined;
-  clients$: Observable<CommentClientModel[]> | undefined;
+  clients$: Observable<CommentClient[]> | undefined;
+  client: CommentClient | undefined;
+
   constructor(private commentService: CommentService) { }
 
   ngOnInit(): void {
@@ -29,14 +30,6 @@ export class CommentComponent implements OnInit, OnDestroy {
       .subscribe(comment => {
         console.log('comment listened');
         this.comments.push(comment);
-      });
-    this.commentService.getAllComments()
-      .pipe(
-        take(1)
-      )
-      .subscribe(comments => {
-        console.log('comments subscribed');
-        this.comments = comments;
       });
     this.commentService.connent();  // maybe not for leaderboard
   }
@@ -56,8 +49,16 @@ export class CommentComponent implements OnInit, OnDestroy {
 
   login(): void {
     if (this.loginFC.value) {
-    this.nickname = this.loginFC.value;
+      this.commentService.listenForWelcome()
+        .pipe(
+          takeUntil(this.unsubscribe$)
+        )
+        .subscribe(welcome => {
+          this.comments = welcome.comments;
+          this.client = welcome.client;
+        });
+      // this.nickname = this.loginFC.value;
+      this.commentService.sendLogin(this.loginFC.value);
     }
-    this.commentService.sendLogin(this.loginFC.value);
   }
 }

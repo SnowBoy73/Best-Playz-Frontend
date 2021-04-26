@@ -1,4 +1,5 @@
-<div *ngIf="nickname">
+<div *ngIf="client">
+  <h5>Logged in as {{client.nickname}}</h5>
   <label>
     Comment:
     <input type="text" [formControl]="commentFC">
@@ -10,7 +11,7 @@
   </h4>
 </div>
 
-<div *ngIf="!nickname">
+<div *ngIf="!client">
   <label>
     Enter nickname:
     <input type="text" [formControl]="loginFC">

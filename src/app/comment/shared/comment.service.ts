@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {Socket} from 'ngx-socket-io';
 import {Observable} from 'rxjs';
-import {CommentClientModel} from './comment-client.model';
-import {CommentModel} from './comment.model';
+import {CommentClient} from './comment.client';
+import {Comment} from './comment';
+import {WelcomeDto} from './welcome.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -15,19 +16,24 @@ export class CommentService {
     this.socket.emit('comment', comment);
   }
 
-  listenForComments(): Observable<CommentModel> {
+  listenForComments(): Observable<Comment> {
     return this.socket
-      .fromEvent<CommentModel>('newComment');
+      .fromEvent<Comment>('newComment');
   }
 
-  listenForClients(): Observable<CommentClientModel[]> {
+  listenForClients(): Observable<CommentClient[]> {
     return this.socket
-      .fromEvent<CommentClientModel[]>('clients');
+      .fromEvent<CommentClient[]>('clients');
   }
 
-  getAllComments(): Observable<CommentModel[]> {
+  listenForWelcome(): Observable<WelcomeDto> {
     return this.socket
-      .fromEvent<CommentModel[]>('allComments');
+      .fromEvent<WelcomeDto>('welcome');
+  }
+
+  getAllComments(): Observable<Comment[]> {
+    return this.socket
+      .fromEvent<Comment[]>('allComments');
   }
 
   sendLogin(nickname: string): void {
