@@ -15,22 +15,55 @@
 
 
 <div *ngIf="client">
-  <h5>Logged in as {{client.nickname}}</h5>
 
-  <div *ngIf="clients$ | async as clients">
-    <ul>
-      <li *ngFor="let client of clients">
-        {{client.nickname}}
-      </li>
-    </ul>
+  <div fxLayout="column" fxFlex="80, 80" fxLayoutAlign="center center">
+    <mat-card fxFlex="80, 80" fxLayout="column">
+      <mat-card-header fxFlex="40px" fxLayoutAlign="center top">
+
+        <h5>Logged in as {{client.nickname}}</h5>
+
+        <mat-card-title style="font-size: xxx-large; font-family: 'American Typewriter'">Best Playz</mat-card-title>
+
+      </mat-card-header>
+      <mat-card-content fxFlex="100">
+
+
+
+
+
+
+
+  <div fxLayout="column" fxFlex="80, 80" fxLayoutAlign="center center">
+    <mat-card fxFlex="80, 80" fxLayout="column">
+      <mat-card-header fxFlex="40px" fxLayoutAlign="center top">
+
+
+        <mat-card-title style="font-size: large; font-family: 'American Typewriter'">Users Online</mat-card-title>
+
+      </mat-card-header>
+      <mat-card-content fxFlex="100">
+
+        <div *ngIf="clients$ | async as clients">
+          <ul>
+            <li *ngFor="let client of clients">
+              {{client.nickname}}
+            </li>
+          </ul>
+        </div>
+
+
+      </mat-card-content>
+    </mat-card>
   </div>
+
+
 
 
   <div fxLayout="column" fxFlex="80, 80" fxLayoutAlign="center center">
 
     <mat-card fxFlex="80, 80" fxLayout="column">
       <mat-card-header fxFlex="40px" fxLayoutAlign="center top">
-        <mat-card-title style="font-size: xxx-large; font-family: 'American Typewriter'">Comments</mat-card-title>
+        <mat-card-title style="font-size: x-large; font-family: 'American Typewriter'">Comments</mat-card-title>
       </mat-card-header>
       <mat-card-content fxFlex="100">
 
@@ -52,4 +85,14 @@
 
 
 
+
+
+
+      </mat-card-content>
+    </mat-card>
   </div>
+
+
+
+
+</div>
