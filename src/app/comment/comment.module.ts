@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { CommentRoutingModule } from './comment-routing.module';
 import { CommentComponent } from './comment.component';
-import {ReactiveFormsModule} from '@angular/forms';
-import {SharedModule} from '../shared/shared.module';
-import {MatCardModule} from '@angular/material/card';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -16,7 +15,6 @@ import {MatCardModule} from '@angular/material/card';
     CommonModule,
     CommentRoutingModule,
     ReactiveFormsModule,
-    // MatButtonModule??
     SharedModule,
   ]
 })

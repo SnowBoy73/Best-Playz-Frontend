@@ -4,7 +4,7 @@ import {CommentService} from './shared/comment.service';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {take, takeUntil} from 'rxjs/operators';
 import {CommentClient} from './shared/comment.client';
-import {Comment} from './shared/comment';
+import { Comment } from './shared/comment';
 
 @Component({
   selector: 'app-comment',
