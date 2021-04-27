@@ -32,6 +32,11 @@ export class CommentService {
       .fromEvent<WelcomeDto>('welcome');
   }
 
+  listenForErrors(): Observable<string> {
+    return this.socket
+      .fromEvent<string>('error');
+  }
+
   getAllComments(): Observable<Comment[]> {
     return this.socket
       .fromEvent<Comment[]>('allComments');

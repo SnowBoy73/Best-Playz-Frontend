@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Best-Playz-Frontend';
+
+
+
+  /* Can put global error listening here (from comment service)!!
+  listenForErrors(): Observable<string> {
+    return this.socket
+      .fromEvent<string>('error');
+  }
+
+   */
 }

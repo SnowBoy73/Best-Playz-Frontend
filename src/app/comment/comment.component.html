@@ -1,3 +1,7 @@
+<div *ngIf="error$ | async as error" style="color: darkred">
+  {{error}}
+</div>
+
 <div *ngIf="client">
   <h5>Logged in as {{client.nickname}}</h5>
   <label>

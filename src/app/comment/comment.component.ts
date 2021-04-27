@@ -18,11 +18,13 @@ export class CommentComponent implements OnInit, OnDestroy {
   loginFC = new FormControl('');
   clients$: Observable<CommentClient[]> | undefined;
   client: CommentClient | undefined;
+  error$: Observable<string> | undefined; // move to app.component for global errors
 
   constructor(private commentService: CommentService) { }
 
   ngOnInit(): void {
     this.clients$ = this.commentService.listenForClients();
+    this.error$ = this.commentService.listenForErrors(); // move to app.component for global errors
     this.commentService.listenForComments()
       .pipe(
         takeUntil(this.unsubscribe$)
