@@ -2,18 +2,6 @@
   {{error}}
 </div>
 
-<div *ngIf="client">
-  <h5>Logged in as {{client.nickname}}</h5>
-  <label>
-    Comment:
-    <input type="text" [formControl]="commentFC">
-  </label>
-  <h3>{{commentFC.value}}</h3>
-  <button (click)="postComment()">Post</button>
-  <h4 *ngFor="let comment of comments">
-    {{comment.sender.nickname}} -- {{comment.text}}
-  </h4>
-</div>
 
 <div *ngIf="!client">
   <label>
@@ -24,27 +12,44 @@
   <button (click)="login()">Login</button>
 </div>
 
-<div *ngIf="clients$ | async as clients">
-  <ul>
-    <li *ngFor="let client of clients">
-      {{client.nickname}}
-    </li>
-  </ul>
-
-  <!--
-    <div fxLayout="column" fxFlex="80, 80" fxLayoutAlign="center center">
-
-      <mat-card fxFlex="80, 80" fxLayout="column">
-        <mat-card-header fxFlex="40px" fxLayoutAlign="center top">
-          <mat-card-title style="font-size: xxx-large; font-family: 'American Typewriter'">Too Much ToDo</mat-card-title>
-        </mat-card-header>
-        <mat-card-content fxFlex="100">
 
 
+<div *ngIf="client">
+  <h5>Logged in as {{client.nickname}}</h5>
+
+  <div *ngIf="clients$ | async as clients">
+    <ul>
+      <li *ngFor="let client of clients">
+        {{client.nickname}}
+      </li>
+    </ul>
+  </div>
 
 
-    </div>
-  -->
+  <div fxLayout="column" fxFlex="80, 80" fxLayoutAlign="center center">
+
+    <mat-card fxFlex="80, 80" fxLayout="column">
+      <mat-card-header fxFlex="40px" fxLayoutAlign="center top">
+        <mat-card-title style="font-size: xxx-large; font-family: 'American Typewriter'">Comments</mat-card-title>
+      </mat-card-header>
+      <mat-card-content fxFlex="100">
+
+        <h4 *ngFor="let comment of comments">
+          {{comment.sender.nickname}} -- {{comment.text}}
+        </h4>
+
+        <label>
+          Comment:
+          <input type="text" [formControl]="commentFC">
+        </label>
+        <h3>{{commentFC.value}}</h3>
+        <button (click)="postComment()">Post</button>
+
+
+        </mat-card-content>
+    </mat-card>
+  </div>
+
 
 
   </div>
