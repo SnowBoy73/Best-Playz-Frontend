@@ -57,6 +57,7 @@ export class CommentComponent implements OnInit, OnDestroy {
   postComment(): void {
     console.log(this.commentFC.value);
     this.commentService.postComment(this.commentFC.value);
+    this.commentFC.patchValue('');
   }
 
   login(): void {
