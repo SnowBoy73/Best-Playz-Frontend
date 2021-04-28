@@ -1,4 +1,4 @@
-<div *ngIf="error$ | async as error" style="color: darkred">
+<div *ngIf="error$ | async as error" class="warm-text-colour">
   {{error}}
 </div>
 
@@ -17,7 +17,7 @@
           <input type="text" [formControl]="loginFC">
         </label>
         <button (click)="login()">Login</button>
-        <!--      <mat-form-field class="example-form-field" fxFlex="250px">
+        <!--      <mat-form-field class="primary-text-colour" fxFlex="250px">
                 <mat-label>Enter Your Nickname</mat-label>
                 <input matInput type="text" [formControl]="loginFC">
                 <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="login()">
@@ -42,6 +42,7 @@
       <mat-card-title style="font-size: xxx-large; font-family: 'American Typewriter'">Best Playz</mat-card-title>
     </mat-card-header>
     <mat-card-content fxFlex="100">
+
 
       <div fxLayout="column" fxFlex="40" fxLayoutAlign="center center">
         <mat-card fxFlex="80, 80" fxLayout="column">
@@ -70,6 +71,14 @@
             <mat-card-title style="font-size: x-large; font-family: 'American Typewriter'">Comments</mat-card-title>
           </mat-card-header>
           <mat-card-content fxFlex="100">
+            <mat-list>
+              <mat-list-item *ngFor="let comment of comments">
+                <mat-icon mat-list-icon>face</mat-icon>
+                <div mat-line class="comment-text">{{comment.text}}</div>
+                <div span mat-line class="comment-sender-text" style="font-size: x-small">{{comment.sender?.nickname}}  -  {{comment.posted}}
+                </div>
+              </mat-list-item>
+            </mat-list>
             <h4 *ngFor="let comment of comments">
               {{comment.sender.nickname}} -- {{comment.text}}
             </h4>

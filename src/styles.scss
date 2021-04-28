@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import "./_variables.scss";
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -6,4 +7,31 @@ router-outlet.router-flex + * {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
+}
+
+.primary-text-colour {
+  color: $primary;
+}
+
+.accent-text-colour {
+  color: $accent;
+}
+
+.warm-text-colour {
+  color: $warn;
+}
+
+.comment-text {
+  color: $primary;
+  font-size: xx-large;
+}
+
+.comment-sender-text {
+  color: $accent;
+  font-size: small;
+}
+
+.comment-posted-text {
+  color: grey;
+  font-size: xx-small;
 }
