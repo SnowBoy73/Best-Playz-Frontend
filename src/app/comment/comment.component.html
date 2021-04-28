@@ -1,4 +1,7 @@
-<div *ngIf="error$ | async as error" class="warm-text-colour">
+<div *ngIf="error$ | async as error"
+     class="warn-text-colour"
+     style="font-family: cursive"
+     style="font-size: 14px">
   {{error}}
 </div>
 
@@ -35,6 +38,7 @@
 
 <div fxLayout="row" fxFlex *ngIf="client">
 
+
   <div fxLayout="column" fxFlex="30">
     <mat-card fxFlex>
       <mat-card-header>
@@ -53,20 +57,21 @@
   </div>
 
 
-
-
   <div fxLayout="column" fxFlex="70" >
     <mat-card fxFlex fxLayout="column">
       <mat-card-header>
         <h5>Logged in as {{client.nickname}}</h5>
-        <h5>Comments</h5>
       </mat-card-header>
 
-      <mat-card-content fxFlex>
-        <h4 *ngFor="let comment of comments">
-          {{comment.text}}
-          {{comment.sender?.nickname}}  -  {{comment.posted}}
-        </h4>
+      <mat-card-content fxFlex fxLayout="column">
+        <mat-list fxFlex class="scrollable-mat-list">
+          <mat-list-item *ngFor="let comment of comments">
+            <mat-icon mat-list-icon>face</mat-icon>
+            <div mat-line class="comment-text">{{comment.text}}</div>
+            <div mat-line class="comment-sender-text" style="font-size: x-small">{{comment.sender?.nickname}}  -  {{comment.posted}}</div>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
       </mat-card-content>
 
       <mat-card-actions>
@@ -81,7 +86,7 @@
         Demo footer text
       </mat-card-footer>
 
-      </mat-card >
+    </mat-card >
 
 
   </div>
