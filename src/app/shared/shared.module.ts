@@ -26,7 +26,7 @@ import {MatListModule} from '@angular/material/list';
     MatInputModule,
     FormsModule,
     MatButtonModule,
-    MatListModule
+    MatListModule,
   ]
 })
 export class SharedModule { }

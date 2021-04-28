@@ -7,27 +7,28 @@
 
 
 <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="!client"  style="padding: 20px" fxLayoutGap="10px">
-  <mat-card fxFlex="40">
+  <mat-card fxFlex="27">
 
     <mat-card-header fxLayoutAlign="center top">
       <mat-card-title fxLayoutAlign="center top" style="font-size: x-large; font-family: 'American Typewriter'">Welcome to</mat-card-title>
       <mat-card-title style="font-size: xxx-large; font-family: 'American Typewriter'">Best Playz</mat-card-title>
     </mat-card-header>
 
-    <mat-card-content fxLayoutAlign="center top">
-      <label>
-        Enter nickname:
-        <input type="text" [formControl]="loginFC">
-      </label>
-      <button (click)="login()" mat-raised-button color="accent">Login</button>
-      <!--      <mat-form-field class="primary-text-colour" fxFlex="250px">
-              <mat-label>Enter Your Nickname</mat-label>
-              <input matInput type="text" [formControl]="loginFC">
-              <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="login()">
-                <mat-icon>send</mat-icon>
-              </button>
-            </mat-form-field>
-    -->
+    <mat-card-content>
+  <!--
+<label>
+Enter nickname:
+<input type="text" [formControl]="loginFC">
+</label>
+<button (click)="login()" mat-raised-button color="accent">Login</button>
+-->
+      <mat-form-field class="primary-text-colour" fxFlex>
+        <mat-label>Enter Nickname</mat-label>
+        <input matInput type="text" [formControl]="loginFC">
+        <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="login()">
+          <mat-icon>send</mat-icon>
+        </button>
+      </mat-form-field>
     </mat-card-content>
   </mat-card>
 </div>
@@ -75,21 +76,31 @@
       </mat-card-content>
 
       <mat-card-actions>
-        <label>
-          Comment:
-          <input type="text" [formControl]="commentFC">
-        </label>
-        <button (click)="postComment()">Post</button>
+            <mat-form-field class="primary-text-colour" fxFlex>
+              <mat-label>Write Comment</mat-label>
+              <input matInput type="text" [formControl]="commentFC">
+              <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="postComment()">
+                <mat-icon>Post</mat-icon>
+              </button>
+            </mat-form-field>
+        <!--
+
+    <label>
+      Comment:
+      <input type="text" [formControl]="commentFC">
+    </label>
+    <button (click)="postComment()">Post</button>
+        -->
       </mat-card-actions>
 
-      <mat-card-footer fxFlex="30px" style="padding-left: 30px">
-        Demo footer text
-      </mat-card-footer>
+  <mat-card-footer fxFlex="30px" style="padding-left: 30px">
+    Demo footer text
+  </mat-card-footer>
 
-    </mat-card >
+</mat-card >
 
 
-  </div>
+</div>
 </div>
 
 
