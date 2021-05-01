@@ -19,6 +19,7 @@ export class CommentComponent implements OnInit, OnDestroy {
   clients$: Observable<CommentClient[]> | undefined;
   client: CommentClient | undefined;
   error$: Observable<string> | undefined; // move to app.component for global errors
+  socketId: string | undefined;
 
   constructor(private commentService: CommentService) { }
 
@@ -45,6 +46,23 @@ export class CommentComponent implements OnInit, OnDestroy {
       this.commentService.sendLogin(this.commentService.client.nickname);
     }
     // this.commentService.connent();  // Removed to stop reconnecting between highscores
+    this.commentService.listenForConnect()
+      .pipe(
+        takeUntil(this.unsubscribe$)
+      )
+      .subscribe((id) => {
+        // console.log('connect id', id);
+        this.socketId = id;
+      });
+    this.commentService.listenForDisconnect()
+      .pipe(
+        takeUntil(this.unsubscribe$)
+      )
+      .subscribe((id) => {
+        // console.log('disconnect id', id);
+        this.socketId = id;
+
+      });
   }
 
   ngOnDestroy(): void {

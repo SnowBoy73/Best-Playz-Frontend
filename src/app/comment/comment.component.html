@@ -4,7 +4,12 @@
      style="font-size: 14px">
   {{error}}
 </div>
-
+<div *ngIf="!socketId"
+     class="warn-text-colour"
+     style="font-family: cursive"
+     style="font-size: 14px">
+     You are not connected
+</div>
 
 <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="!client"  style="padding: 20px" fxLayoutGap="10px">
   <mat-card fxFlex="27">
@@ -56,7 +61,7 @@ Enter nickname:
   <div fxLayout="column" fxFlex="70" >
     <mat-card fxFlex fxLayout="column">
       <mat-card-header>
-        <h5>Logged in as {{client.nickname}}</h5>
+        <h5>Logged in as {{client.nickname}}  --- {{socketId}}</h5>
       </mat-card-header>
       <mat-card-content fxFlex fxLayout="column">
         <mat-list fxFlex class="scrollable-mat-list">
