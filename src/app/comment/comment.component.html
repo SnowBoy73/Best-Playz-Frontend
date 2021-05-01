@@ -67,7 +67,7 @@ Enter nickname:
         <mat-list fxFlex class="scrollable-mat-list">
           <mat-list-item *ngFor="let comment of comments">
             <mat-icon mat-list-icon>face</mat-icon>
-            <div mat-line class="comment-text">{{comment.text}}</div>
+            <div mat-line class="comment-text">{{comment.text}} --- {{comment.id}}</div>
             <div mat-line class="comment-sender-text" style="font-size: x-small">{{comment.sender}}  -  {{comment.posted}}</div>
             <mat-divider></mat-divider>
           </mat-list-item>

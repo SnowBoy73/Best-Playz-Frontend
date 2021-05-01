@@ -5,17 +5,19 @@ import {CommentClient} from './comment.client';
 import {Comment} from './comment';
 import {WelcomeDto} from './welcome.dto';
 import {map} from 'rxjs/operators';
+import {loginDto} from './login.dto';
+import {CommentDto} from './comment.dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommentService {
-  client: CommentClient | undefined;
+  // client: CommentClient | undefined;
 
   constructor(private socket: Socket ) { }
 
-  postComment(comment: string): void {
-    this.socket.emit('comment', comment);
+  postComment(commentDto: CommentDto): void {
+    this.socket.emit('comment', commentDto);
   }
 
   listenForComments(): Observable<Comment> {
@@ -63,16 +65,15 @@ export class CommentService {
       .fromEvent<Comment[]>('allComments');
   }
 
-  sendLogin(nickname: string): void {
-    console.log(nickname);
-    this.socket.emit('login', nickname);
+  sendLogin(dto: loginDto): void {
+    this.socket.emit('login', dto);
   }
 
-  disconnent(): void{
+  disconnect(): void{
     this.socket.disconnect();
   }
 
-  connent(): void{
+  connect(): void{
     this.socket.connect();
   }
 }
