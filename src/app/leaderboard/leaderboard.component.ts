@@ -36,7 +36,7 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
         console.log('highscore received');
         this.highscores = highscores;
       });
-
+    this.leaderboardService.connect();
   }
 
   postHighscore(): void {
@@ -48,5 +48,6 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
     console.log('Leaderboard Component Destroyed');
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+    this.leaderboardService.disconnect();
   }
 }
