@@ -2,8 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {LeaderboardService} from './shared/leaderboard.service';
 import {Comment} from '../comment/shared/comment';
-import {takeUntil} from 'rxjs/operators';
-import {Subscription} from 'rxjs';
+import {take, takeUntil} from 'rxjs/operators';
+import {Subject, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-leaderboard',
@@ -13,17 +13,30 @@ import {Subscription} from 'rxjs';
 export class LeaderboardComponent implements OnInit, OnDestroy {
   highscoreFC = new FormControl('');
   highscores: string[] = [];
-  private sub: Subscription | undefined;
+  unsubscribe$ = new Subject();
+
 
   constructor(private leaderboardService: LeaderboardService) { }
 
   ngOnInit(): void {
     console.log('Leaderboard Component Initialised');
-    this.sub = this.leaderboardService.listenForHighscores()
+    this.leaderboardService.listenForHighscores()
+      .pipe(
+        takeUntil(this.unsubscribe$)
+      )
       .subscribe(highscore => {
-        console.log('highscore listened');
+        console.log('highscore received');
         this.highscores.push(highscore);
       });
+    this.leaderboardService.getAllHighscores()
+      .pipe(
+        take(1)
+      )
+      .subscribe(highscores => {
+        console.log('highscore received');
+        this.highscores = highscores;
+      });
+
   }
 
   postHighscore(): void {
@@ -33,8 +46,7 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     console.log('Leaderboard Component Destroyed');
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

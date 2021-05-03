@@ -20,4 +20,17 @@ export class LeaderboardService {
     return this.socket
       .fromEvent<string>('newHighscore');
   }
+
+  getAllHighscores(): Observable<string[]> {
+    return this.socket
+      .fromEvent<string[]>('allHighscores');
+  }
+
+  disconnect(): void{
+    this.socket.disconnect();
+  }
+
+  connect(): void{
+    this.socket.connect();
+  }
 }

@@ -38,7 +38,7 @@ export class CommentComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribe$)
       )
       .subscribe(comment => {
-        console.log('comment listened');
+        console.log('comment received');
         this.comments.push(comment);
       });
     this.commentService.listenForWelcome()
