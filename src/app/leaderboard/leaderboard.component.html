@@ -1,0 +1,8 @@
+<p>leaderboard works!</p>
+<mat-form-field class="primary-text-colour" fxFlex="40">
+  <mat-label>Post a mock Highscore Comment</mat-label>
+  <input matInput type="text" [formControl]="highscoreFC">
+  <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="postHighscore()">
+    <mat-icon>send</mat-icon>
+  </button>
+</mat-form-field>

@@ -12,9 +12,8 @@ import {CommentDto} from './comment.dto';
   providedIn: 'root'
 })
 export class CommentService {
-  // client: CommentClient | undefined;
 
-  constructor(private socket: Socket ) { }
+  constructor(private socket: Socket) { }
 
   postComment(commentDto: CommentDto): void {
     this.socket.emit('comment', commentDto);
