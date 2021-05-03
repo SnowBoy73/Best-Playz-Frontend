@@ -1,8 +1,57 @@
-<p>leaderboard works!</p>
-<mat-form-field class="primary-text-colour" fxFlex="40">
-  <mat-label>Post a mock Highscore Comment</mat-label>
-  <input matInput type="text" [formControl]="highscoreFC">
-  <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="postHighscore()">
-    <mat-icon>send</mat-icon>
-  </button>
-</mat-form-field>
+<div fxLayout="row" fxFlex>
+
+<div fxLayout="column" fxFlex="30">
+    <mat-card fxFlex>
+      <mat-card-header>
+        <h5>Game details</h5>
+      </mat-card-header>
+      <mat-card-content>
+          <ul>
+            <li *ngFor="let highscore of highscores">
+              {{highscore}}
+            </li>
+          </ul>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div fxLayout="column" fxFlex="70" >
+    <mat-card fxFlex fxLayout="column">
+      <mat-card-header>
+        <h5>HighScores</h5>
+      </mat-card-header>
+      <mat-card-content fxFlex fxLayout="column">
+        <mat-list fxFlex class="scrollable-mat-list">
+          <mat-list-item *ngFor="let highscore of highscores">
+            <mat-icon mat-list-icon>face</mat-icon>
+            <div mat-line class="comment-text">{{highscore}}</div>
+            <div mat-line class="comment-sender-text" style="font-size: x-small">user  -  time</div>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+      <mat-card-actions>
+        <mat-form-field class="primary-text-colour" fxFlex="40">
+          <mat-label>Post a mock Highscore Comment</mat-label>
+          <input matInput type="text" [formControl]="highscoreFC">
+          <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="postHighscore()">
+            <mat-icon>send</mat-icon>
+          </button>
+        </mat-form-field>
+      </mat-card-actions>
+      <mat-card-footer fxFlex="30px" style="padding-left: 30px">
+       footer
+      </mat-card-footer>
+    </mat-card >
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+

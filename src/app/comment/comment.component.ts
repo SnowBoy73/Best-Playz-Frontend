@@ -30,6 +30,7 @@ export class CommentComponent implements OnInit, OnDestroy {
               private storageService: StorageService) { }
 
   ngOnInit(): void {
+    console.log('Comment Component Initialised');
     this.clients$ = this.commentService.listenForClients();
     this.error$ = this.commentService.listenForErrors(); // move to app.component for global errors
     this.commentService.listenForComments()
@@ -75,7 +76,7 @@ export class CommentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('Destroyed');
+    console.log('Comment Component Destroyed');
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     // this.commentService.disconnect();  // Removed to stay connected between highscores
