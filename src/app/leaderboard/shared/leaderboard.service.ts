@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import {CommentDto} from '../../comment/shared/comment.dto';
 import {Socket} from 'ngx-socket-io';
 import {Observable} from 'rxjs';
-import {Comment} from '../../comment/shared/comment';
+import {CommentModel} from '../../comment/shared/comment.model';
+import {HighscoreModel} from './highscore.model';
+import {HighscoreDto} from './highscore.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -11,19 +13,19 @@ export class LeaderboardService {
 
   constructor(private socket: Socket) { }
 
-  postHighScore(highscore: string): void {
-    console.log('highscore = ', highscore);
-    this.socket.emit('highscore', highscore);
+  postHighScore(highscoreDto: HighscoreDto): void {
+    console.log('highscore = ', highscoreDto);
+    this.socket.emit('highscore', highscoreDto);
   }
 
-  listenForHighscores(): Observable<string> {
+  listenForHighscores(): Observable<HighscoreModel> {
     return this.socket
-      .fromEvent<string>('newHighscore');
+      .fromEvent<HighscoreModel>('newHighscore');
   }
 
-  getAllHighscores(): Observable<string[]> {
+  getAllHighscores(): Observable<HighscoreModel[]> {
     return this.socket
-      .fromEvent<string[]>('allHighscores');
+      .fromEvent<HighscoreModel[]>('allHighscores');
   }
 
   disconnect(): void{

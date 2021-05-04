@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Socket} from 'ngx-socket-io';
 import {Observable} from 'rxjs';
 import {CommentClient} from './comment.client';
-import {Comment} from './comment';
+import {CommentModel} from './comment.model';
 import {WelcomeDto} from './welcome.dto';
 import {map} from 'rxjs/operators';
 import {loginDto} from './login.dto';
@@ -19,9 +19,9 @@ export class CommentService {
     this.socket.emit('comment', commentDto);
   }
 
-  listenForComments(): Observable<Comment> {
+  listenForComments(): Observable<CommentModel> {
     return this.socket
-      .fromEvent<Comment>('newComment');
+      .fromEvent<CommentModel>('newComment');
   }
 
   listenForClients(): Observable<CommentClient[]> {
@@ -59,12 +59,13 @@ export class CommentService {
       );
   }
 
-  getAllComments(): Observable<Comment[]> {
+  getAllComments(): Observable<CommentModel[]> {
     return this.socket
-      .fromEvent<Comment[]>('allComments');
+      .fromEvent<CommentModel[]>('allComments');
   }
 
   sendLogin(dto: loginDto): void {
+    console.log(dto.nickname);
     this.socket.emit('login', dto);
   }
 

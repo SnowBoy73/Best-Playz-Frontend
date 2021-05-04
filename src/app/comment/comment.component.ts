@@ -4,7 +4,7 @@ import {CommentService} from './shared/comment.service';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {take, takeUntil} from 'rxjs/operators';
 import {CommentClient} from './shared/comment.client';
-import { Comment } from './shared/comment';
+import { CommentModel } from './shared/comment.model';
 import {loginDto} from './shared/login.dto';
 import {StorageService} from '../shared/storage.service';
 import {CommentDto} from './shared/comment.dto';
@@ -18,7 +18,7 @@ export class CommentComponent implements OnInit, OnDestroy {
   loggedInUser: CommentClient | undefined;
 
   commentFC = new FormControl('');
-  comments: Comment[] = [];
+  comments: CommentModel[] = [];
   unsubscribe$ = new Subject();
   loginFC = new FormControl('');
   clients$: Observable<CommentClient[]> | undefined;
@@ -30,7 +30,7 @@ export class CommentComponent implements OnInit, OnDestroy {
               private storageService: StorageService) { }
 
   ngOnInit(): void {
-    console.log('Comment Component Initialised');
+    console.log('CommentModel Component Initialised');
     this.clients$ = this.commentService.listenForClients();
     this.error$ = this.commentService.listenForErrors(); // move to app.component for global errors
     this.commentService.listenForComments()
@@ -76,7 +76,7 @@ export class CommentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('Comment Component Destroyed');
+    console.log('CommentModel Component Destroyed');
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     // this.commentService.disconnect();  // Removed to stay connected between highscores

@@ -8,7 +8,7 @@
       <mat-card-content>
           <ul>
             <li *ngFor="let highscore of highscores">
-              {{highscore}}
+              {{highscore.score}} by {{highscore.nickname}} on {{highscore.date}}
             </li>
           </ul>
       </mat-card-content>
@@ -32,7 +32,7 @@
       </mat-card-content>
       <mat-card-actions>
         <mat-form-field class="primary-text-colour" fxFlex="40">
-          <mat-label>Post a mock Highscore Comment</mat-label>
+          <mat-label>Post a mock HighscoreModel CommentModel</mat-label>
           <input matInput type="text" [formControl]="highscoreFC">
           <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="postHighscore()">
             <mat-icon>send</mat-icon>

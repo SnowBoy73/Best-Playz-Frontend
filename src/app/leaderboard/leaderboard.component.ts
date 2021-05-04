@@ -1,9 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {LeaderboardService} from './shared/leaderboard.service';
-import {Comment} from '../comment/shared/comment';
+import {CommentModel} from '../comment/shared/comment.model';
 import {take, takeUntil} from 'rxjs/operators';
 import {Subject, Subscription} from 'rxjs';
+import {HighscoreModel} from './shared/highscore.model';
+import {CommentDto} from '../comment/shared/comment.dto';
+import {StorageService} from '../shared/storage.service';
+import {HighscoreDto} from './shared/highscore.dto';
 
 @Component({
   selector: 'app-leaderboard',
@@ -12,11 +16,12 @@ import {Subject, Subscription} from 'rxjs';
 })
 export class LeaderboardComponent implements OnInit, OnDestroy {
   highscoreFC = new FormControl('');
-  highscores: string[] = [];
+  highscores: HighscoreModel[] = [];
   unsubscribe$ = new Subject();
 
 
-  constructor(private leaderboardService: LeaderboardService) { }
+  constructor(private leaderboardService: LeaderboardService,
+              private storageService: StorageService) { }
 
   ngOnInit(): void {
     console.log('Leaderboard Component Initialised');
@@ -40,8 +45,21 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
   }
 
   postHighscore(): void {
-    this.leaderboardService.postHighScore(this.highscoreFC.value);
-
+    console.log('dto nickname: ', this.storageService.loadCommentClient()?.nickname);
+    // loggedInUser = this.storageService.loadCommentClient();
+    if (this.storageService.loadCommentClient()?.nickname) {
+      if (this.highscoreFC.value) {
+        const highscoreDto: HighscoreDto = {
+          nickname: this.storageService.loadCommentClient()?.nickname,
+          gameId: 1,  // MOCK !!!
+          score: this.highscoreFC.value,
+          time: 123, // MOCK
+        };
+        this.leaderboardService.postHighScore(highscoreDto);
+        this.highscoreFC.patchValue('');
+        // this.leaderboardService.postHighScore(this.highscoreFC.value);
+      }
+    }
   }
 
   ngOnDestroy(): void {
