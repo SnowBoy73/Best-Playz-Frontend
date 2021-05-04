@@ -8,6 +8,7 @@ import {HighscoreModel} from './shared/highscore.model';
 import {CommentDto} from '../comment/shared/comment.dto';
 import {StorageService} from '../shared/storage.service';
 import {HighscoreDto} from './shared/highscore.dto';
+import {CommentClient} from '../comment/shared/comment.client';
 
 @Component({
   selector: 'app-leaderboard',
@@ -18,12 +19,14 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
   highscoreFC = new FormControl('');
   highscores: HighscoreModel[] = [];
   unsubscribe$ = new Subject();
+  userNickname: string | undefined;
 
 
   constructor(private leaderboardService: LeaderboardService,
               private storageService: StorageService) { }
 
   ngOnInit(): void {
+    this.userNickname = this.storageService.loadCommentClient()?.nickname;
     console.log('Leaderboard Component Initialised');
     this.leaderboardService.listenForHighscores()
       .pipe(
