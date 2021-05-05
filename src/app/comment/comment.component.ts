@@ -33,9 +33,7 @@ export class CommentComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     console.log('Comment Component Initialised');
     console.log('Logged in as: ', this.storageService.loadCommentClient()?.nickname);
-
     this.commentService.requestHighscoreComments(this.highscoreId) // MOCK gameId
-
     this.clients$ = this.commentService.listenForClients();
     this.error$ = this.commentService.listenForErrors(); // move to app.component for global errors
     this.commentService.listenForNewComment()
@@ -67,18 +65,11 @@ export class CommentComponent implements OnInit, OnDestroy {
       });
     const oldClient = this.storageService.loadCommentClient();
     console.log('Old Client id: ' + oldClient?.id + ' nickname: ' + oldClient?.nickname);
-
     if (oldClient) {
-      /*this.commentService.sendLogin({
-        id: oldClient.id,
-        nickname: oldClient.nickname
-      });*/
-
+      /*this.commentService.sendLogin({id: oldClient.id, nickname: oldClient.nickname});*/
        this.client = this.storageService.loadCommentClient(); // NEW causes problems
        console.log('Client id: ' + this.client?.id + ' nickname: ' + this.client?.nickname);
-
-       this.commentService.connect(); // ???
-
+       this.commentService.connect(); // MUY IMPORTANTE!!
     }
 
     this.commentService.listenForConnect()

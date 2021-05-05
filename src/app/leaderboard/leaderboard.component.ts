@@ -3,7 +3,7 @@ import {FormControl} from '@angular/forms';
 import {LeaderboardService} from './shared/leaderboard.service';
 import {CommentModel} from '../comment/shared/comment.model';
 import {take, takeUntil} from 'rxjs/operators';
-import {Subject, Subscription} from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
 import {HighscoreModel} from './shared/highscore.model';
 import {CommentDto} from '../comment/shared/comment.dto';
 import {StorageService} from '../shared/storage.service';
@@ -21,6 +21,8 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
   unsubscribe$ = new Subject();
   userNickname: string | undefined;
   gameId = 1;  // MOCK
+  error$: Observable<string> | undefined; // move to app.component for global errors
+  socketId: string | undefined;
 
 
   constructor(private leaderboardService: LeaderboardService,
@@ -29,9 +31,8 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userNickname = this.storageService.loadCommentClient()?.nickname;
     console.log('Leaderboard Component Initialised');
-
     this.leaderboardService.requestGameHighscores(this.gameId) // MOCK gameId
-
+    this.error$ = this.leaderboardService.listenForErrors(); // move to app.component for global errors
     this.leaderboardService.listenForNewHighscore()
       .pipe(
         takeUntil(this.unsubscribe$)
@@ -48,7 +49,7 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
         console.log(highscores.length, ' highscores received');
         this.highscores = highscores;
       });
-    this.leaderboardService.connect(); // ???
+    this.leaderboardService.connect(); // MUY IMPORTANTE!!
   }
 
   postHighscore(): void {

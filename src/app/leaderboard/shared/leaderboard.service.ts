@@ -32,6 +32,11 @@ export class LeaderboardService {
       .fromEvent<HighscoreModel[]>('gameHighscores');
   }
 
+  listenForErrors(): Observable<string> {
+    return this.socket
+      .fromEvent<string>('error');
+  }
+
   disconnect(): void{
     this.socket.disconnect();
   }
