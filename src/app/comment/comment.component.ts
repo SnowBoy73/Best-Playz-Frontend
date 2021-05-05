@@ -31,7 +31,8 @@ export class CommentComponent implements OnInit, OnDestroy {
               private storageService: StorageService) { }
 
   ngOnInit(): void {
-    console.log('CommentModel Component Initialised');
+    console.log('Comment Component Initialised');
+    console.log('Logged in as: ', this.storageService.loadCommentClient()?.nickname);
 
     this.commentService.requestHighscoreComments(this.highscoreId) // MOCK gameId
 
@@ -45,6 +46,16 @@ export class CommentComponent implements OnInit, OnDestroy {
         console.log('comment received');
         this.comments.push(comment);
       });
+
+    this.commentService.listenForHighscoreComments() // MOCK gameId
+      .pipe(
+        take(1)
+      )
+      .subscribe(comments => {
+        console.log(comments.length, ' comments received');
+        this.comments = comments;
+      });
+
     this.commentService.listenForCommentWelcome()
       .pipe(
         takeUntil(this.unsubscribe$)
@@ -56,15 +67,20 @@ export class CommentComponent implements OnInit, OnDestroy {
       });
     const oldClient = this.storageService.loadCommentClient();
     console.log('Old Client id: ' + oldClient?.id + ' nickname: ' + oldClient?.nickname);
+
     if (oldClient) {
-      this.commentService.sendLogin({
+      /*this.commentService.sendLogin({
         id: oldClient.id,
         nickname: oldClient.nickname
-      });
+      });*/
 
-      // this.client = oldClient; // NEW causes problems
+       this.client = this.storageService.loadCommentClient(); // NEW causes problems
+       console.log('Client id: ' + this.client?.id + ' nickname: ' + this.client?.nickname);
+
+       this.commentService.connect(); // ???
 
     }
+
     this.commentService.listenForConnect()
       .pipe(
         takeUntil(this.unsubscribe$)
@@ -87,7 +103,7 @@ export class CommentComponent implements OnInit, OnDestroy {
     console.log('CommentModel Component Destroyed');
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-    // this.commentService.disconnect();  // Removed to stay connected between highscores
+    this.commentService.disconnect();  // Removed to stay connected between highscores
   }
 
   postComment(): void {
