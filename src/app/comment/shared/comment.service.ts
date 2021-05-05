@@ -7,6 +7,7 @@ import {WelcomeDto} from './welcome.dto';
 import {map} from 'rxjs/operators';
 import {loginDto} from './login.dto';
 import {CommentDto} from './comment.dto';
+import {HighscoreModel} from '../../leaderboard/shared/highscore.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,12 +17,22 @@ export class CommentService {
   constructor(private socket: Socket) { }
 
   postComment(commentDto: CommentDto): void {
-    this.socket.emit('comment', commentDto);
+    this.socket.emit('postComment', commentDto);
   }
 
-  listenForComments(): Observable<CommentModel> {
+  listenForNewComment(): Observable<CommentModel> {
     return this.socket
       .fromEvent<CommentModel>('newComment');
+  }
+
+  requestHighscoreComments(highscoreId: string): void {
+    console.log('requestHighscoreComments called');
+    this.socket.emit('requestHighscoreComments', highscoreId);
+  }
+
+  listenForHighscoreComments(): Observable<HighscoreModel[]> {  // Dto??
+    return this.socket
+      .fromEvent<HighscoreModel[]>('highscoresComments');
   }
 
   listenForClients(): Observable<CommentClient[]> {
@@ -29,7 +40,7 @@ export class CommentService {
       .fromEvent<CommentClient[]>('clients');
   }
 
-  listenForWelcome(): Observable<WelcomeDto> {
+  listenForCommentWelcome(): Observable<WelcomeDto> {
     return this.socket
       .fromEvent<WelcomeDto>('welcome');
   }
@@ -57,11 +68,6 @@ export class CommentService {
           return this.socket.ioSocket.id;
         })
       );
-  }
-
-  getAllComments(): Observable<CommentModel[]> {
-    return this.socket
-      .fromEvent<CommentModel[]>('allComments');
   }
 
   sendLogin(dto: loginDto): void {

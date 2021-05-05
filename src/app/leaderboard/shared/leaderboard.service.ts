@@ -10,22 +10,26 @@ import {HighscoreDto} from './highscore.dto';
   providedIn: 'root'
 })
 export class LeaderboardService {
-
   constructor(private socket: Socket) { }
 
   postHighScore(highscoreDto: HighscoreDto): void {
-    console.log('highscore = ', highscoreDto);
-    this.socket.emit('highscore', highscoreDto);
+    console.log('highscore posted = ', highscoreDto);
+    this.socket.emit('postHighscore', highscoreDto);
   }
 
-  listenForHighscores(): Observable<HighscoreModel> {
+  listenForNewHighscore(): Observable<HighscoreModel> {
     return this.socket
       .fromEvent<HighscoreModel>('newHighscore');
   }
 
-  getAllHighscores(): Observable<HighscoreModel[]> {
+  requestGameHighscores(gameId: number): void {
+    console.log('requestGameHighScore called');
+    this.socket.emit('requestGameHighscores', gameId);
+  }
+
+  listenForGameHighscores(): Observable<HighscoreModel[]> {  // Dto??
     return this.socket
-      .fromEvent<HighscoreModel[]>('allHighscores');
+      .fromEvent<HighscoreModel[]>('gameHighscores');
   }
 
   disconnect(): void{

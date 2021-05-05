@@ -20,6 +20,7 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
   highscores: HighscoreModel[] = [];
   unsubscribe$ = new Subject();
   userNickname: string | undefined;
+  gameId = 1;  // MOCK
 
 
   constructor(private leaderboardService: LeaderboardService,
@@ -28,7 +29,10 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userNickname = this.storageService.loadCommentClient()?.nickname;
     console.log('Leaderboard Component Initialised');
-    this.leaderboardService.listenForHighscores()
+
+    this.leaderboardService.requestGameHighscores(this.gameId) // MOCK gameId
+
+    this.leaderboardService.listenForNewHighscore()
       .pipe(
         takeUntil(this.unsubscribe$)
       )
@@ -36,15 +40,15 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
         console.log('highscore received');
         this.highscores.push(highscore);
       });
-    this.leaderboardService.getAllHighscores()
+    this.leaderboardService.listenForGameHighscores() // MOCK gameId
       .pipe(
         take(1)
       )
       .subscribe(highscores => {
-        console.log('highscore received');
+        console.log(highscores.length, ' highscores received');
         this.highscores = highscores;
       });
-    this.leaderboardService.connect();
+    this.leaderboardService.connect(); // ???
   }
 
   postHighscore(): void {

@@ -25,15 +25,19 @@ export class CommentComponent implements OnInit, OnDestroy {
   client: CommentClient | undefined;
   error$: Observable<string> | undefined; // move to app.component for global errors
   socketId: string | undefined;
+  highscoreId = 'mock';  // MOCK
 
   constructor(private commentService: CommentService,
               private storageService: StorageService) { }
 
   ngOnInit(): void {
     console.log('CommentModel Component Initialised');
+
+    this.commentService.requestHighscoreComments(this.highscoreId) // MOCK gameId
+
     this.clients$ = this.commentService.listenForClients();
     this.error$ = this.commentService.listenForErrors(); // move to app.component for global errors
-    this.commentService.listenForComments()
+    this.commentService.listenForNewComment()
       .pipe(
         takeUntil(this.unsubscribe$)
       )
@@ -41,7 +45,7 @@ export class CommentComponent implements OnInit, OnDestroy {
         console.log('comment received');
         this.comments.push(comment);
       });
-    this.commentService.listenForWelcome()
+    this.commentService.listenForCommentWelcome()
       .pipe(
         takeUntil(this.unsubscribe$)
       )
@@ -51,11 +55,15 @@ export class CommentComponent implements OnInit, OnDestroy {
         this.storageService.saveCommentClient(this.client);
       });
     const oldClient = this.storageService.loadCommentClient();
+    console.log('Old Client id: ' + oldClient?.id + ' nickname: ' + oldClient?.nickname);
     if (oldClient) {
       this.commentService.sendLogin({
         id: oldClient.id,
         nickname: oldClient.nickname
       });
+
+      // this.client = oldClient; // NEW causes problems
+
     }
     this.commentService.listenForConnect()
       .pipe(
