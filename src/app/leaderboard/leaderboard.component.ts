@@ -24,13 +24,15 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
   error$: Observable<string> | undefined; // move to app.component for global errors
   socketId: string | undefined;
 
+  liu: any;
 
   constructor(private leaderboardService: LeaderboardService,
               private storageService: StorageService) { }
 
   ngOnInit(): void {
-    this.userNickname = this.storageService.loadClient()?.nickname;
     console.log('Leaderboard Component Initialised');
+    this.userNickname = this.storageService.loadClient()?.nickname;
+
     this.leaderboardService.requestGameHighscores(this.gameId) // MOCK gameId
     this.error$ = this.leaderboardService.listenForErrors(); // move to app.component for global errors
     this.leaderboardService.listenForNewHighscore()
@@ -65,7 +67,6 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
         };
         this.leaderboardService.postHighScore(highscoreDto);
         this.highscoreFC.patchValue('');
-        // this.leaderboardService.postHighScore(this.highscoreFC.value);
       }
     }
   }

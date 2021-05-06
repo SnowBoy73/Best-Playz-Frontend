@@ -15,8 +15,6 @@ import {CommentDto} from './shared/comment.dto';
   styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent implements OnInit, OnDestroy {
-  loggedInUser: ClientModel | undefined;
-
   commentFC = new FormControl('');
   comments: CommentModel[] = [];
   unsubscribe$ = new Subject();
@@ -27,21 +25,18 @@ export class CommentComponent implements OnInit, OnDestroy {
   socketId: string | undefined;
   highscoreId = 'mock';  // MOCK
 
+  isLoggedIn = localStorage.length;
+  // userNickname: string | undefined;
+  loggedInUser: ClientModel | undefined;
+
   constructor(private commentService: CommentService,
               private storageService: StorageService) {
   }
 
   ngOnInit(): void {
-
-    let LSId = this.storageService.loadClient()?.id;
-    let LSnickname = this.storageService.loadClient()?.nickname;
-    console.log('LSId = ', LSId);
-    console.log('LSnickname = ', LSnickname);
-
-
     console.log('Comment Component Initialised');
     console.log('Logged in as: ', this.storageService.loadClient()?.nickname);
-    this.commentService.requestHighscoreComments(this.highscoreId) // MOCK gameId
+    this.commentService.requestHighscoreComments(this.highscoreId); // MOCK gameId
     this.clients$ = this.commentService.listenForClients();
     this.error$ = this.commentService.listenForErrors(); // move to app.component for global errors
     this.commentService.listenForNewComment()
@@ -146,4 +141,16 @@ export class CommentComponent implements OnInit, OnDestroy {
     return clientId;
   }
 */
+
+
+  logout(): void {
+    // localStorage.clear();
+    this.loggedInUser = this.storageService.loadClient();
+    if (this.loggedInUser !== undefined) {
+      this.storageService.deleteClient(this.loggedInUser.nickname);
+    } else {}
+    if (this.storageService.loadClient() !== undefined) {
+      console.log('logout nickname :', this.storageService.loadClient()?.nickname);
+    }
+  }
 }
