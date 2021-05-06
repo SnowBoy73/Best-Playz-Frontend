@@ -3,7 +3,15 @@
     <a routerLink="/">Home</a>----
     <a routerLink="/leaderboard">Leaderboard</a>----
     <a routerLink="/comment">Comments</a>
+    <h6> local storage length = {{isLoggedIn}}</h6>
+    <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn == 0">
 
+      <button (click)="logout()">LogIn - not impl.</button>
+
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn !== 0">
+      <button (click)="logout()">Logout</button>
+    </div>
   </div>
   <router-outlet class="router-flex"></router-outlet>
 

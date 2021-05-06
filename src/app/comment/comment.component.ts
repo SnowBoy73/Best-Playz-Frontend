@@ -28,10 +28,15 @@ export class CommentComponent implements OnInit, OnDestroy {
   highscoreId = 'mock';  // MOCK
 
   constructor(private commentService: CommentService,
-              private storageService: StorageService) { }
+              private storageService: StorageService) {
+  }
 
   ngOnInit(): void {
 
+    let LSId = this.storageService.loadClient()?.id;
+    let LSnickname = this.storageService.loadClient()?.nickname;
+    console.log('LSId = ', LSId);
+    console.log('LSnickname = ', LSnickname);
 
 
     console.log('Comment Component Initialised');
@@ -70,9 +75,9 @@ export class CommentComponent implements OnInit, OnDestroy {
     console.log('Old Client id: ' + oldClient?.id + ' nickname: ' + oldClient?.nickname);
     if (oldClient) {
       /*this.commentService.sendLogin({id: oldClient.id, nickname: oldClient.nickname});*/
-       this.client = this.storageService.loadClient(); // NEW causes problems
-       console.log('Client id: ' + this.client?.id + ' nickname: ' + this.client?.nickname);
-       this.commentService.connect(); // MUY IMPORTANTE!!
+      this.client = this.storageService.loadClient(); // NEW causes problems
+      console.log('Client id: ' + this.client?.id + ' nickname: ' + this.client?.nickname);
+      this.commentService.connect(); // MUY IMPORTANTE!!
     }
 
     this.commentService.listenForConnect()
@@ -122,4 +127,23 @@ export class CommentComponent implements OnInit, OnDestroy {
       this.commentService.sendLogin(dto);
     }
   }
+
+  /*  // ??? Needed?
+  logout(): void {
+
+    if (this.client !== null) {
+    const dto: loginDto = {nickname: this.loginFC.value};
+    this.commentService.sendLogin(dto);
+    }
+  }
+  */
+/*
+  getClientId(): string {
+    let clientId: string = '** undefined **';
+    if (this.client !== undefined) {
+      clientId = this.client?.id as string;
+    }
+    return clientId;
+  }
+*/
 }

@@ -1,6 +1,6 @@
 <div fxLayout="row" fxFlex>
 
-<div fxLayout="column" fxFlex="30">
+  <div fxLayout="column" fxFlex="30">
     <mat-card fxFlex>
       <mat-card-header>
         <h5>Game details</h5>
@@ -32,7 +32,7 @@
       </mat-card-content>
       <mat-card-actions>
         <mat-form-field class="primary-text-colour" fxFlex="40">
-          <mat-label>Post a mock HighscoreModel</mat-label>
+          <mat-label>Post a mock Highscore (number)</mat-label>
           <input matInput type="text" [formControl]="highscoreFC">
           <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="postHighscore()">
             <mat-icon>send</mat-icon>
