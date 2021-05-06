@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Socket} from 'ngx-socket-io';
 import {Observable} from 'rxjs';
-import {CommentClient} from './comment.client';
+import {ClientModel} from './client.model';
 import {CommentModel} from './comment.model';
 import {WelcomeDto} from './welcome.dto';
 import {map} from 'rxjs/operators';
@@ -35,9 +35,9 @@ export class CommentService {
       .fromEvent<CommentModel[]>('highscoreComments');
   }
 
-  listenForClients(): Observable<CommentClient[]> {
+  listenForClients(): Observable<ClientModel[]> {
     return this.socket
-      .fromEvent<CommentClient[]>('clients');
+      .fromEvent<ClientModel[]>('clients');
   }
 
   listenForCommentWelcome(): Observable<WelcomeDto> {

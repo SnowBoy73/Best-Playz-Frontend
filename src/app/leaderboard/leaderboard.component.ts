@@ -8,7 +8,7 @@ import {HighscoreModel} from './shared/highscore.model';
 import {CommentDto} from '../comment/shared/comment.dto';
 import {StorageService} from '../shared/storage.service';
 import {HighscoreDto} from './shared/highscore.dto';
-import {CommentClient} from '../comment/shared/comment.client';
+import {ClientModel} from '../comment/shared/client.model';
 
 @Component({
   selector: 'app-leaderboard',
@@ -29,7 +29,7 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
               private storageService: StorageService) { }
 
   ngOnInit(): void {
-    this.userNickname = this.storageService.loadCommentClient()?.nickname;
+    this.userNickname = this.storageService.loadClient()?.nickname;
     console.log('Leaderboard Component Initialised');
     this.leaderboardService.requestGameHighscores(this.gameId) // MOCK gameId
     this.error$ = this.leaderboardService.listenForErrors(); // move to app.component for global errors
@@ -53,12 +53,12 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
   }
 
   postHighscore(): void {
-    console.log('dto nickname: ', this.storageService.loadCommentClient()?.nickname);
+    console.log('dto nickname: ', this.storageService.loadClient()?.nickname);
     // loggedInUser = this.storageService.loadCommentClient();
-    if (this.storageService.loadCommentClient()?.nickname) {
+    if (this.storageService.loadClient()?.nickname) {
       if (this.highscoreFC.value) {
         const highscoreDto: HighscoreDto = {
-          nickname: this.storageService.loadCommentClient()?.nickname,
+          nickname: this.storageService.loadClient()?.nickname,
           gameId: 1,  // MOCK !!!
           score: this.highscoreFC.value,
           time: 123, // MOCK

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {CommentClient} from '../comment/shared/comment.client';
+import {ClientModel} from '../comment/shared/client.model';
 
 @Injectable({
   providedIn: 'root'
@@ -7,16 +7,20 @@ import {CommentClient} from '../comment/shared/comment.client';
 export class StorageService {
 
   constructor() { }
-    saveCommentClient(commentClient: CommentClient): void {
+    saveClient(commentClient: ClientModel): void {
       localStorage.setItem('client', JSON.stringify(commentClient));
   }
 
-  loadCommentClient(): CommentClient | undefined {
+  loadClient(): ClientModel | undefined {
     const commentClientString = localStorage.getItem('client');
     if (commentClientString) {
-      const commentClient: CommentClient = JSON.parse(commentClientString);
+      const commentClient: ClientModel = JSON.parse(commentClientString);
       return commentClient;
     }
     return undefined;
   }
+
+  deleteClient(id: string): void {
+  }
+
 }
