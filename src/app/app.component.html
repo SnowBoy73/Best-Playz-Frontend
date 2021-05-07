@@ -8,7 +8,7 @@
     <h6> local storage length = {{isLoggedIn}}</h6>
     <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn == 0">
 
-      <button (click)="logout()">LogIn - not impl.</button>
+      <button (click)="login()">LogIn</button>
 
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn !== 0">
@@ -39,7 +39,8 @@
 </div>
 
 -->
-<!--
+
+<h3>Login Reg = {{loginRequest}}</h3>
 
 <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="loginRequest == true"  style="padding: 20px" fxLayoutGap="10px">
   <mat-card fxFlex="27">
@@ -53,14 +54,13 @@
       <mat-form-field class="primary-text-colour" fxFlex>
         <mat-label>Enter Nickname</mat-label>
         <input matInput type="text" [formControl]="loginFC">
-        <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="login()">
+        <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="sendLogin()">
           <mat-icon>send</mat-icon>
         </button>
       </mat-form-field>
     </mat-card-content>
   </mat-card>
 </div>
--->
 
 
 

@@ -6,6 +6,7 @@ import {CommentComponent} from './comment/comment.component';
 import {ClientModel} from './comment/shared/client.model';
 import {FormControl} from '@angular/forms';
 import {Socket} from 'ngx-socket-io';
+import {loginDto} from './comment/shared/login.dto';
 
 @Component({
   selector: 'app-root',
@@ -29,19 +30,18 @@ export class AppComponent {
   listenForErrors(): Observable<string> {
     return this.socket
       .fromEvent<string>('error');
-  }
-
-   */
-
-  ngOnInit(): void {  // maybe not needed
+  }*/
+  /*ngOnInit(): void {  // maybe not needed
     const loginRequest = false;
-      }
-
-
+     }*/
 
   login(): void {
-
+    console.log('login() request 1 = ', this.loginRequest);
+    this.loginRequest = true;
+    console.log('login() request 2 = ', this.loginRequest);
+    // location.reload();
   }
+
 /*
 login(): void {
     // this.loginRequest = true;
@@ -51,16 +51,19 @@ login(): void {
       const dto: loginDto = {nickname: this.loginFC.value};
       this.commentService.sendLogin(dto);
     }
-}
+} */
 
-sendLogin(dto: loginDto): void {
-  // this.loginRequest = false;
+  sendLogin(): void {
+    // this.loginRequest = false;
+    if (this.loginFC.value) {
+      const dto: loginDto = {nickname: this.loginFC.value};
+      console.log(dto.nickname);
+      this.socket.emit('login', dto);
+      this.loginRequest = false;
+    }
+  }
 
-  console.log(dto.nickname);
-  this.socket.emit('login', dto);
-}
 
- */
     logout(): void {
     console.log('Logout called in App Comp');
     this.loggedInUser = this.storageService.loadClient();
@@ -68,8 +71,8 @@ sendLogin(dto: loginDto): void {
     if (this.loggedInUser !== undefined) {
       console.log('logout id is DEFINED as:', this.storageService.loadClient()?.id);
       this.socket.emit('logout', this.loggedInUser.id);
-      //this.storageService.deleteClient(this.loggedInUser.id);
-      localStorage.clear();
+      // this.storageService.deleteClient(this.loggedInUser.id);  // Better, but not working... why??!
+      localStorage.clear();  // Brutal, but works for now
       console.log('local storage cleared:', this.storageService.loadClient()?.id);
       location.reload();
     } else {
