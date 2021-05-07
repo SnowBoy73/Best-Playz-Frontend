@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Observable, Subject} from 'rxjs';
 import {CommentService} from './comment/shared/comment.service';
 import {StorageService} from './shared/storage.service';
 import {CommentComponent} from './comment/comment.component';
@@ -7,33 +7,62 @@ import {ClientModel} from './comment/shared/client.model';
 import {FormControl} from '@angular/forms';
 import {Socket} from 'ngx-socket-io';
 import {loginDto} from './comment/shared/login.dto';
+import {WelcomeDto} from './comment/shared/welcome.dto';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'Best-Playz-Frontend';
   isLoggedIn = localStorage.length;
   userNickname: string | undefined;
   loggedInUser: ClientModel | undefined;
   loginRequest: boolean | undefined;
   loginFC = new FormControl('');
+  unsubscribe$ = new Subject();
 
   constructor(
     private storageService: StorageService,
     private socket: Socket,
   ) { }
 
-  /* Can put global error listening here (from comment service)!!
-  listenForErrors(): Observable<string> {
-    return this.socket
-      .fromEvent<string>('error');
-  }*/
-  /*ngOnInit(): void {  // maybe not needed
-    const loginRequest = false;
-     }*/
+  ngOnInit(): void {
+    this.listenForCommentWelcome()
+      .pipe(
+        takeUntil(this.unsubscribe$)
+      )
+      .subscribe(welcome => {
+        // this.comments = welcome.comments;
+        this.loggedInUser = welcome.client;
+        this.storageService.saveClient(this.loggedInUser);
+      });
+    const oldClient = this.storageService.loadClient();
+    console.log('Old Client id: ' + oldClient?.id + ' nickname: ' + oldClient?.nickname);
+    if (oldClient) {
+      /*this.commentService.sendLogin({id: oldClient.id, nickname: oldClient.nickname});*/
+      this.loggedInUser = this.storageService.loadClient(); // NEW causes problems
+      console.log('Client id: ' + this.loggedInUser?.id + ' nickname: ' + this.loggedInUser?.nickname);
+      this.connect(); // MUY IMPORTANTE!!
+    }
+  }
+
+
+    listenForCommentWelcome(): Observable < WelcomeDto > { // to service?
+      return this.socket
+        .fromEvent<WelcomeDto>('welcome');
+       location.reload(); // doesn't work
+
+    }
+
+
+    /* Can put global error listening here (from comment service)!!
+    listenForErrors(): Observable<string> {
+      return this.socket
+        .fromEvent<string>('error');
+   */
 
   login(): void {
     console.log('login() request 1 = ', this.loginRequest);
@@ -53,7 +82,7 @@ login(): void {
     }
 } */
 
-  sendLogin(): void {
+  sendLogin(): void { // should really be in a service but ... you know...
     // this.loginRequest = false;
     if (this.loginFC.value) {
       const dto: loginDto = {nickname: this.loginFC.value};
@@ -78,5 +107,14 @@ login(): void {
     } else {
       console.log('logout id == undefined:', this.storageService.loadClient()?.nickname);
     }
+  }
+
+
+  connect(): void{ // to service?
+    this.socket.connect();
+  }
+
+  disconnect(): void{ // to service?
+    this.socket.disconnect();
   }
 }
