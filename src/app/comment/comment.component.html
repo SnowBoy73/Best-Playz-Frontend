@@ -36,18 +36,6 @@
           </ul>
         </div>
       </mat-card-content>
-      <mat-card-footer>
-
-      <h6> local storage length = {{isLoggedIn}}</h6>
-        <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn == 0">
-
-          <button (click)="logout()">LogIn - not impl.</button>
-
-        </div>
-        <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn !== 0">
-          <button (click)="logout()">Logout</button>
-        </div>
-      </mat-card-footer>
 
     </mat-card>
   </div>
@@ -94,6 +82,7 @@
 
   </div>
 </div>
+
 
 
 

@@ -123,34 +123,5 @@ export class CommentComponent implements OnInit, OnDestroy {
     }
   }
 
-  /*  // ??? Needed?
-  logout(): void {
-
-    if (this.client !== null) {
-    const dto: loginDto = {nickname: this.loginFC.value};
-    this.commentService.sendLogin(dto);
-    }
-  }
-  */
-/*
-  getClientId(): string {
-    let clientId: string = '** undefined **';
-    if (this.client !== undefined) {
-      clientId = this.client?.id as string;
-    }
-    return clientId;
-  }
-*/
-
-
-  logout(): void {
-    // localStorage.clear();
-    this.loggedInUser = this.storageService.loadClient();
-    if (this.loggedInUser !== undefined) {
-      this.storageService.deleteClient(this.loggedInUser.nickname);
-    } else {}
-    if (this.storageService.loadClient() !== undefined) {
-      console.log('logout nickname :', this.storageService.loadClient()?.nickname);
-    }
-  }
 }
+

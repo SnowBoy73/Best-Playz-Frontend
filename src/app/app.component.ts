@@ -15,9 +15,8 @@ export class AppComponent {
   isLoggedIn = localStorage.length;
   userNickname: string | undefined;
   loggedInUser: ClientModel | undefined;
-
-  constructor(// private commentComponent: CommentComponent,  // NOT COOL but whatever - if it works
-              private storageService: StorageService) { }
+  loginRequest: boolean | undefined;
+  constructor(private storageService: StorageService) { }
 
   /* Can put global error listening here (from comment service)!!
   listenForErrors(): Observable<string> {
@@ -27,7 +26,11 @@ export class AppComponent {
 
    */
 
-  logout(): void {
+  login(): void {
+
+  }
+
+    logout(): void {
     console.log('Logout called in App Comp');
       // localStorage.clear();
     this.loggedInUser = this.storageService.loadClient();
