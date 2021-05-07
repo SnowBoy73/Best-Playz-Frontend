@@ -1,4 +1,6 @@
-<div fxLayout="column" fxFill fxLayoutGap="10px">
+
+
+<div fxLayout="column" fxFill fxLayoutGap="10px"  *ngIf="loginRequest !== true">
   <div fxLayout="row">
     <a routerLink="/">Home</a>----
     <a routerLink="/leaderboard">Leaderboard</a>----
@@ -16,13 +18,13 @@
   <router-outlet class="router-flex"></router-outlet>
 
 </div>
-
 <!--
 <div fxLayout="column" fxFill fxLayoutGap="10px" fxFlex *ngIf="loginRequest !== true" >
   <div fxLayout="row">
     <a routerLink="/">Home</a>----
     <a routerLink="/leaderboard">Leaderboard</a>----
     <a routerLink="/comment">Comments</a>
+
     <h6> local storage length = {{isLoggedIn}}</h6>
     <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn == 0">
 
@@ -35,8 +37,8 @@
   </div>
   <router-outlet class="router-flex"></router-outlet>
 </div>
--->
 
+-->
 <!--
 
 <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="loginRequest == true"  style="padding: 20px" fxLayoutGap="10px">
@@ -61,4 +63,30 @@
 -->
 
 
+
+
+
+
+
+
+<!-- ORIGINAL _ WORKS
+
+<div fxLayout="column" fxFill fxLayoutGap="10px">
+  <div fxLayout="row">
+    <a routerLink="/">Home</a>----
+    <a routerLink="/leaderboard">Leaderboard</a>----
+    <a routerLink="/comment">Comments</a>
+    <h6> local storage length = {{isLoggedIn}}</h6>
+    <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn == 0">
+
+      <button (click)="logout()">LogIn - not impl.</button>
+
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn !== 0">
+      <button (click)="logout()">Logout</button>
+    </div>
+  </div>
+  <router-outlet class="router-flex"></router-outlet>
+
+</div>
 -->

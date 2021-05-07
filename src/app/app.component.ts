@@ -33,6 +33,12 @@ export class AppComponent {
 
    */
 
+  ngOnInit(): void {  // maybe not needed
+    const loginRequest = false;
+      }
+
+
+
   login(): void {
 
   }
@@ -57,22 +63,15 @@ sendLogin(dto: loginDto): void {
  */
     logout(): void {
     console.log('Logout called in App Comp');
-      // localStorage.clear();
     this.loggedInUser = this.storageService.loadClient();
     console.log('logout id :', this.storageService.loadClient()?.id);
-
     if (this.loggedInUser !== undefined) {
       console.log('logout id is DEFINED as:', this.storageService.loadClient()?.id);
-
       this.socket.emit('logout', this.loggedInUser.id);
-
-
       //this.storageService.deleteClient(this.loggedInUser.id);
       localStorage.clear();
       console.log('local storage cleared:', this.storageService.loadClient()?.id);
-
       location.reload();
-
     } else {
       console.log('logout id == undefined:', this.storageService.loadClient()?.nickname);
     }
