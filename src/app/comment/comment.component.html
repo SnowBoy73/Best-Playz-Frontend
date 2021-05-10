@@ -1,4 +1,4 @@
-
+<!--
 <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="!client"  style="padding: 20px" fxLayoutGap="10px">
   <mat-card fxFlex="27">
 
@@ -18,10 +18,10 @@
     </mat-card-content>
   </mat-card>
 </div>
+-->
 
-
-<div fxLayout="row" fxFlex *ngIf="client">
-
+<div fxLayout="row" fxFlex> <!-- *ngIf="client">
+-->
   <div fxLayout="column" fxFlex="30">
     <mat-card fxFlex>
       <mat-card-header>
@@ -43,7 +43,12 @@
   <div fxLayout="column" fxFlex="70" >
     <mat-card fxFlex fxLayout="column">
       <mat-card-header>
+  <div *ngIf="client">
         <h5>Comments: Logged in as {{client.nickname}}  --- {{client.id}}</h5>
+  </div>
+        <div *ngIf="!client">
+          <h5>Comments: Not logged in</h5>
+        </div>
       </mat-card-header>
       <mat-card-content fxFlex fxLayout="column">
         <mat-list fxFlex class="scrollable-mat-list">

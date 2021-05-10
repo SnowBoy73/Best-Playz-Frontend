@@ -117,6 +117,8 @@ export class CommentComponent implements OnInit, OnDestroy {
   }
 
   login(): void {
+    console.log('comment login - to delete');
+
     if (this.loginFC.value) {
       const dto: loginDto = {nickname: this.loginFC.value};
       this.commentService.sendLogin(dto);

@@ -38,6 +38,9 @@ export class AppComponent implements OnInit{
         // this.comments = welcome.comments;
         this.loggedInUser = welcome.client;
         this.storageService.saveClient(this.loggedInUser);
+        console.log('saved LIU: ', this.loggedInUser.nickname);
+        location.reload();
+
       });
     const oldClient = this.storageService.loadClient();
     console.log('Old Client id: ' + oldClient?.id + ' nickname: ' + oldClient?.nickname);
@@ -53,7 +56,7 @@ export class AppComponent implements OnInit{
     listenForCommentWelcome(): Observable < WelcomeDto > { // to service?
       return this.socket
         .fromEvent<WelcomeDto>('welcome');
-       location.reload(); // doesn't work
+      // location.reload(); // doesn't work
 
     }
 
@@ -65,6 +68,8 @@ export class AppComponent implements OnInit{
    */
 
   login(): void {
+    console.log('Login method');
+
     console.log('login() request 1 = ', this.loginRequest);
     this.loginRequest = true;
     console.log('login() request 2 = ', this.loginRequest);
@@ -83,6 +88,8 @@ login(): void {
 } */
 
   sendLogin(): void { // should really be in a service but ... you know...
+    console.log('sendLogin method');
+
     // this.loginRequest = false;
     if (this.loginFC.value) {
       const dto: loginDto = {nickname: this.loginFC.value};
