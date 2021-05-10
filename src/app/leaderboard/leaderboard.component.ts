@@ -24,7 +24,8 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
   socketId: string | undefined;
   isLoggedIn = localStorage.length;
   userNickname: string | undefined;
-
+  highscoreSelected = '';
+  chosenHighscore: HighscoreModel | undefined;
 
   constructor(private leaderboardService: LeaderboardService,
               private storageService: StorageService) { }
@@ -76,5 +77,20 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     this.leaderboardService.disconnect();
+  }
+
+  onNgModelChange($event: any) {
+    if (this.highscoreSelected.length !== 0)
+    {
+      const highscoreName = this.highscoreSelected[0].toString();
+      this.chosenHighscore = this.highscores.find(uh => uh.id === highscoreName);
+      if (this.chosenHighscore) {
+        console.log(this.chosenHighscore.id, this.chosenHighscore.score, this.chosenHighscore.nickname);
+        
+        // GO TO COMMENT ROUTE HERE     // this.stockFC.patchValue(this.updatedStock.currentPrice);
+      } else {
+        console.log('error - no highscore with that name found');
+      }
+    }
   }
 }

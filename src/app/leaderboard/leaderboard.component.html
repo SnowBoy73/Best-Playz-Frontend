@@ -20,6 +20,21 @@
         <h2>HighScores (socketId = {{socketId}})</h2>
       </mat-card-header>
       <mat-card-content fxFlex fxLayout="column">
+<!--
+-->
+
+        <mat-selection-list fxFlex class="scrollList"
+                            #hiscores [(ngModel)]="highscoreSelected" (ngModelChange)="onNgModelChange($event)" [multiple]="false">
+          <mat-list-option *ngFor="let highscore of highscores"
+                           (click)="onNgModelChange(hiscores)" [value]="highscore.id">
+          <mat-icon mat-list-icon>face</mat-icon>
+          <div mat-line class="comment-text">Score: {{highscore.score}} Time:{{highscore.time}}</div>
+          <div mat-line class="comment-sender-text" style="font-size: x-small">By {{highscore.nickname}}  on  {{highscore.date}}</div>
+          <mat-divider></mat-divider>
+            <mat-divider></mat-divider>
+          </mat-list-option>
+        </mat-selection-list>
+        <!--
         <mat-list fxFlex class="scrollable-mat-list">
           <mat-list-item *ngFor="let highscore of highscores">
             <mat-icon mat-list-icon>face</mat-icon>
@@ -28,6 +43,9 @@
             <mat-divider></mat-divider>
           </mat-list-item>
         </mat-list>
+        -->
+
+
       </mat-card-content>
       <mat-card-actions>
         <div *ngIf="isLoggedIn">
