@@ -19,10 +19,12 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
   highscoreFC = new FormControl('');
   highscores: HighscoreModel[] = [];
   unsubscribe$ = new Subject();
-  userNickname: string | undefined;
   gameId = 1;  // MOCK
   error$: Observable<string> | undefined; // move to app.component for global errors
   socketId: string | undefined;
+  isLoggedIn = localStorage.length;
+  userNickname: string | undefined;
+
 
   constructor(private leaderboardService: LeaderboardService,
               private storageService: StorageService) { }

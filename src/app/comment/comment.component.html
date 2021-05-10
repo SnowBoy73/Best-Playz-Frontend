@@ -1,27 +1,4 @@
-<!--
-<div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="!client"  style="padding: 20px" fxLayoutGap="10px">
-  <mat-card fxFlex="27">
-
-    <mat-card-header fxLayoutAlign="center top">
-      <mat-card-title fxLayoutAlign="center top" style="font-size: x-large; font-family: 'American Typewriter'">Welcome to</mat-card-title>
-      <mat-card-title style="font-size: xxx-large; font-family: 'American Typewriter'">Best Playz</mat-card-title>
-    </mat-card-header>
-
-    <mat-card-content>
-      <mat-form-field class="primary-text-colour" fxFlex>
-        <mat-label>Enter Nickname</mat-label>
-        <input matInput type="text" [formControl]="loginFC">
-        <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="login()">
-          <mat-icon>send</mat-icon>
-        </button>
-      </mat-form-field>
-    </mat-card-content>
-  </mat-card>
-</div>
--->
-
-<div fxLayout="row" fxFlex> <!-- *ngIf="client">
--->
+<div fxLayout="row" fxFlex>
   <div fxLayout="column" fxFlex="30">
     <mat-card fxFlex>
       <mat-card-header>
@@ -36,21 +13,13 @@
           </ul>
         </div>
       </mat-card-content>
-
     </mat-card>
   </div>
 
   <div fxLayout="column" fxFlex="70" >
     <mat-card fxFlex fxLayout="column">
       <mat-card-header>
-       <!-- <div *ngIf="client">
-              <h5>Comments: Logged in as {{client.nickname}}  --- {{client.id}}</h5>
-        </div>
-        <div *ngIf="!client">
-          <h5>Comments: Not logged in</h5>
-        </div> -->
-        <h5>HighScores: Logged in as {{userNickname}}</h5>
-
+        <h2>Comments for [highscore details] --- (socketId = {{socketId}})</h2>
       </mat-card-header>
       <mat-card-content fxFlex fxLayout="column">
         <mat-list fxFlex class="scrollable-mat-list">
@@ -63,14 +32,23 @@
         </mat-list>
       </mat-card-content>
       <mat-card-actions>
-        <mat-form-field class="primary-text-colour" fxFlex="40">
-          <mat-label>Write Comment</mat-label>
-          <input matInput type="text" [formControl]="commentFC">
-          <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="postComment()">
-            <mat-icon>send</mat-icon>
-          </button>
-        </mat-form-field>
+        <div *ngIf="isLoggedIn">
+          <mat-form-field class="primary-text-colour" fxFlex="40">
+            <mat-label>Write Comment</mat-label>
+            <input matInput type="text" [formControl]="commentFC">
+            <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="postComment()">
+              <mat-icon>send</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div *ngIf="!isLoggedIn"
+          class="warn-text-colour"
+          style="font-family: cursive"
+          style="font-size: 14px">
+          You need to log in to post a comment
+        </div>
       </mat-card-actions>
+
       <mat-card-footer fxFlex="30px" style="padding-left: 30px">
         <div *ngIf="error$ | async as error"
              class="warn-text-colour"

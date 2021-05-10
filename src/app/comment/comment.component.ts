@@ -24,7 +24,6 @@ export class CommentComponent implements OnInit, OnDestroy {
   error$: Observable<string> | undefined; // move to app.component for global errors
   socketId: string | undefined;
   highscoreId = 'mock';  // MOCK
-
   isLoggedIn = localStorage.length;
   userNickname: string | undefined;
   loggedInUser: ClientModel | undefined;
@@ -37,12 +36,15 @@ export class CommentComponent implements OnInit, OnDestroy {
     console.log('Comment Component Initialised');
     console.log('Logged in as: ', this.storageService.loadClient()?.nickname); //
 
+    this.commentService.connect(); // MUY IMPORTANTE!!
+
+
     this.userNickname = this.storageService.loadClient()?.nickname;
     console.log('comment userNickname: ', this.storageService.loadClient()?.nickname);
 
     this.commentService.requestHighscoreComments(this.highscoreId); // MOCK gameId
     this.error$ = this.commentService.listenForErrors(); // move to app.component for global errors
-    // this.clients$ = this.commentService.listenForClients(); //
+    this.clients$ = this.commentService.listenForClients(); //
     this.commentService.listenForNewComment()
       .pipe(
         takeUntil(this.unsubscribe$)
@@ -60,28 +62,6 @@ export class CommentComponent implements OnInit, OnDestroy {
         console.log(comments.length, ' comments received');
         this.comments = comments;
       });
-/*
-    this.commentService.listenForCommentWelcome()
-      .pipe(
-        takeUntil(this.unsubscribe$)
-      )
-      .subscribe(welcome => {
-        this.comments = welcome.comments;
-        this.client = welcome.client;
-        this.storageService.saveClient(this.client);
-      });
-    const oldClient = this.storageService.loadClient();
-    console.log('Old Client id: ' + oldClient?.id + ' nickname: ' + oldClient?.nickname);
-    if (oldClient) {
-      // this.commentService.sendLogin({id: oldClient.id, nickname: oldClient.nickname});
-      this.client = this.storageService.loadClient(); // NEW causes problems
-      console.log('Client id: ' + this.client?.id + ' nickname: ' + this.client?.nickname);
-       */
-
-      this.commentService.connect(); // MUY IMPORTANTE!!
-
-
-
     this.commentService.listenForConnect()
       .pipe(
         takeUntil(this.unsubscribe$)
@@ -104,7 +84,7 @@ export class CommentComponent implements OnInit, OnDestroy {
     console.log('CommentModel Component Destroyed');
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-    this.commentService.disconnect();  // Removed to stay connected between highscores
+    this.commentService.disconnect();  // Removed to stay connected between routes
   }
 
   postComment(): void {
@@ -122,15 +102,6 @@ export class CommentComponent implements OnInit, OnDestroy {
       }
     }
   }
-/*
-  login(): void {
-    console.log('comment login - to delete');
 
-    if (this.loginFC.value) {
-      const dto: loginDto = {nickname: this.loginFC.value};
-      this.commentService.sendLogin(dto);
-    }
-  }
-*/
 }
 

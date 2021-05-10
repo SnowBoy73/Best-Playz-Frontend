@@ -5,42 +5,23 @@
     <a routerLink="/">Home</a>----
     <a routerLink="/leaderboard">Leaderboard</a>----
     <a routerLink="/comment">Comments</a>
-    <h6> local storage length = {{isLoggedIn}}</h6>
+
     <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn == 0">
 
-      <button (click)="login()">LogIn</button>
+        <h4>Not logged in</h4>
 
+      <button (click)="login()">LogIn</button>
     </div>
+
     <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn !== 0">
+        <h4 > Logged in as {{loggedInUser?.nickname}} </h4>
+
       <button (click)="logout()">Logout</button>
     </div>
   </div>
   <router-outlet class="router-flex"></router-outlet>
 
 </div>
-<!--
-<div fxLayout="column" fxFill fxLayoutGap="10px" fxFlex *ngIf="loginRequest !== true" >
-  <div fxLayout="row">
-    <a routerLink="/">Home</a>----
-    <a routerLink="/leaderboard">Leaderboard</a>----
-    <a routerLink="/comment">Comments</a>
-
-    <h6> local storage length = {{isLoggedIn}}</h6>
-    <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn == 0">
-
-      <button (click)="login()">LogIn</button>
-
-    </div>
-    <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn !== 0">
-      <button (click)="logout()">Logout</button>
-    </div>
-  </div>
-  <router-outlet class="router-flex"></router-outlet>
-</div>
-
--->
-
-<h3>Login Reg = {{loginRequest}}</h3>
 
 <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="loginRequest == true"  style="padding: 20px" fxLayoutGap="10px">
   <mat-card fxFlex="27">
@@ -61,32 +42,3 @@
     </mat-card-content>
   </mat-card>
 </div>
-
-
-
-
-
-
-
-
-<!-- ORIGINAL _ WORKS
-
-<div fxLayout="column" fxFill fxLayoutGap="10px">
-  <div fxLayout="row">
-    <a routerLink="/">Home</a>----
-    <a routerLink="/leaderboard">Leaderboard</a>----
-    <a routerLink="/comment">Comments</a>
-    <h6> local storage length = {{isLoggedIn}}</h6>
-    <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn == 0">
-
-      <button (click)="logout()">LogIn - not impl.</button>
-
-    </div>
-    <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn !== 0">
-      <button (click)="logout()">Logout</button>
-    </div>
-  </div>
-  <router-outlet class="router-flex"></router-outlet>
-
-</div>
--->

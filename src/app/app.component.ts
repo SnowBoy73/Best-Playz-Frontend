@@ -39,26 +39,25 @@ export class AppComponent implements OnInit{
         this.loggedInUser = welcome.client;
         this.storageService.saveClient(this.loggedInUser);
         console.log('saved LIU: ', this.loggedInUser.nickname);
-       location.reload();
+        location.reload();
 
       });
     const oldClient = this.storageService.loadClient();
     console.log('Old Client id: ' + oldClient?.id + ' nickname: ' + oldClient?.nickname);
     if (oldClient) {
-      /*this.commentService.sendLogin({id: oldClient.id, nickname: oldClient.nickname});*/
-      this.loggedInUser = this.storageService.loadClient(); // NEW causes problems
+      this.loggedInUser = this.storageService.loadClient();
       console.log('Client id: ' + this.loggedInUser?.id + ' nickname: ' + this.loggedInUser?.nickname);
-      this.connect(); // MUY IMPORTANTE!!
+      this.connect(); // MUY IMPORTANTÉ!!
     }
   }
 
 
-    listenForCommentWelcome(): Observable < WelcomeDto > { // to service?
-      return this.socket
-        .fromEvent<WelcomeDto>('welcome');
-      // location.reload(); // doesn't work
+  listenForCommentWelcome(): Observable < WelcomeDto > { // to service?
+    return this.socket
+      .fromEvent<WelcomeDto>('welcome');
+    // location.reload(); // doesn't work
 
-    }
+  }
 
 
     /* Can put global error listening here (from comment service)!!
@@ -68,29 +67,11 @@ export class AppComponent implements OnInit{
    */
 
   login(): void {
-    console.log('Login method');
-
-    console.log('login() request 1 = ', this.loginRequest);
     this.loginRequest = true;
-    console.log('login() request 2 = ', this.loginRequest);
-    // location.reload();
   }
-
-/*
-login(): void {
-    // this.loginRequest = true;
-    location.reload();
-
-    /*if (this.loginFC.value) {
-      const dto: loginDto = {nickname: this.loginFC.value};
-      this.commentService.sendLogin(dto);
-    }
-} */
 
   sendLogin(): void { // should really be in a service but ... you know...
     console.log('sendLogin method');
-
-    // this.loginRequest = false;
     if (this.loginFC.value) {
       const dto: loginDto = {nickname: this.loginFC.value};
       console.log(dto.nickname);
@@ -99,8 +80,7 @@ login(): void {
     }
   }
 
-
-    logout(): void {
+  logout(): void {
     console.log('Logout called in App Comp');
     this.loggedInUser = this.storageService.loadClient();
     console.log('logout id :', this.storageService.loadClient()?.id);
