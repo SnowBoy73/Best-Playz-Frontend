@@ -26,7 +26,7 @@ export class CommentComponent implements OnInit, OnDestroy {
   highscoreId = 'mock';  // MOCK
 
   isLoggedIn = localStorage.length;
-  // userNickname: string | undefined;
+  userNickname: string | undefined;
   loggedInUser: ClientModel | undefined;
 
   constructor(private commentService: CommentService,
@@ -35,10 +35,14 @@ export class CommentComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     console.log('Comment Component Initialised');
-    console.log('Logged in as: ', this.storageService.loadClient()?.nickname);
+    console.log('Logged in as: ', this.storageService.loadClient()?.nickname); //
+
+    this.userNickname = this.storageService.loadClient()?.nickname;
+    console.log('comment userNickname: ', this.storageService.loadClient()?.nickname);
+
     this.commentService.requestHighscoreComments(this.highscoreId); // MOCK gameId
-    this.clients$ = this.commentService.listenForClients();
     this.error$ = this.commentService.listenForErrors(); // move to app.component for global errors
+    // this.clients$ = this.commentService.listenForClients(); //
     this.commentService.listenForNewComment()
       .pipe(
         takeUntil(this.unsubscribe$)
@@ -56,7 +60,7 @@ export class CommentComponent implements OnInit, OnDestroy {
         console.log(comments.length, ' comments received');
         this.comments = comments;
       });
-
+/*
     this.commentService.listenForCommentWelcome()
       .pipe(
         takeUntil(this.unsubscribe$)
@@ -69,11 +73,14 @@ export class CommentComponent implements OnInit, OnDestroy {
     const oldClient = this.storageService.loadClient();
     console.log('Old Client id: ' + oldClient?.id + ' nickname: ' + oldClient?.nickname);
     if (oldClient) {
-      /*this.commentService.sendLogin({id: oldClient.id, nickname: oldClient.nickname});*/
+      // this.commentService.sendLogin({id: oldClient.id, nickname: oldClient.nickname});
       this.client = this.storageService.loadClient(); // NEW causes problems
       console.log('Client id: ' + this.client?.id + ' nickname: ' + this.client?.nickname);
+       */
+
       this.commentService.connect(); // MUY IMPORTANTE!!
-    }
+
+
 
     this.commentService.listenForConnect()
       .pipe(
@@ -115,7 +122,7 @@ export class CommentComponent implements OnInit, OnDestroy {
       }
     }
   }
-
+/*
   login(): void {
     console.log('comment login - to delete');
 
@@ -124,6 +131,6 @@ export class CommentComponent implements OnInit, OnDestroy {
       this.commentService.sendLogin(dto);
     }
   }
-
+*/
 }
 

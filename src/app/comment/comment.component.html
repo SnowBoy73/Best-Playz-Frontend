@@ -43,12 +43,14 @@
   <div fxLayout="column" fxFlex="70" >
     <mat-card fxFlex fxLayout="column">
       <mat-card-header>
-  <div *ngIf="client">
-        <h5>Comments: Logged in as {{client.nickname}}  --- {{client.id}}</h5>
-  </div>
+       <!-- <div *ngIf="client">
+              <h5>Comments: Logged in as {{client.nickname}}  --- {{client.id}}</h5>
+        </div>
         <div *ngIf="!client">
           <h5>Comments: Not logged in</h5>
-        </div>
+        </div> -->
+        <h5>HighScores: Logged in as {{userNickname}}</h5>
+
       </mat-card-header>
       <mat-card-content fxFlex fxLayout="column">
         <mat-list fxFlex class="scrollable-mat-list">

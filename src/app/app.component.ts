@@ -39,7 +39,7 @@ export class AppComponent implements OnInit{
         this.loggedInUser = welcome.client;
         this.storageService.saveClient(this.loggedInUser);
         console.log('saved LIU: ', this.loggedInUser.nickname);
-        location.reload();
+       location.reload();
 
       });
     const oldClient = this.storageService.loadClient();

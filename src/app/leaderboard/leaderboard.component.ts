@@ -24,8 +24,6 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
   error$: Observable<string> | undefined; // move to app.component for global errors
   socketId: string | undefined;
 
-  liu: any;
-
   constructor(private leaderboardService: LeaderboardService,
               private storageService: StorageService) { }
 
