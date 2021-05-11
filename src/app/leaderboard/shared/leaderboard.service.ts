@@ -27,6 +27,13 @@ export class LeaderboardService {
     this.socket.emit('requestGameHighscores', gameId);
   }
 
+  sendSelectedHighscore(selectedHighscore: HighscoreModel): void {
+    console.log('requestGameHighScore called');
+    console.log('DTO: ', selectedHighscore.id, selectedHighscore.nickname, selectedHighscore.gameId, selectedHighscore.score, selectedHighscore.date, selectedHighscore.time);
+
+    this.socket.emit('requestGameHighscores', selectedHighscore);
+  }
+
   listenForGameHighscores(): Observable<HighscoreModel[]> {  // Dto??
     return this.socket
       .fromEvent<HighscoreModel[]>('gameHighscores');

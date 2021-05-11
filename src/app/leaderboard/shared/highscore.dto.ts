@@ -1,9 +1,9 @@
 export interface HighscoreDto {
-  // id: string;
+  id?: string;
   nickname?: string;
   gameId: number;
   score: number;  // no double... has decimals??
-  // date: string;
+  date?: string;
   time: number;
 }
 

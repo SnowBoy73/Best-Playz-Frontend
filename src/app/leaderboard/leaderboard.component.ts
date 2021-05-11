@@ -82,12 +82,23 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
   onNgModelChange($event: any) {
     if (this.highscoreSelected.length !== 0)
     {
-      const highscoreName = this.highscoreSelected[0].toString();
-      this.chosenHighscore = this.highscores.find(uh => uh.id === highscoreName);
+      const highscoreId = this.highscoreSelected[0].toString();
+      this.chosenHighscore = this.highscores.find(uh => uh.id === highscoreId);
       if (this.chosenHighscore) {
         console.log(this.chosenHighscore.id, this.chosenHighscore.score, this.chosenHighscore.nickname);
-        
-        // GO TO COMMENT ROUTE HERE     // this.stockFC.patchValue(this.updatedStock.currentPrice);
+        // GO TO COMMENT ROUTE HERE and pass chosenHighscore.id into  @SubscribeMessage('requestHighscoreComments') in backend
+       // this.leaderboardService.
+        const selectedHighscore: HighscoreModel = {
+          id: this.chosenHighscore.id,
+          nickname: this.chosenHighscore.nickname,
+          gameId: this.chosenHighscore.gameId,
+          score: this.chosenHighscore.score,  // no double... has decimals??
+          date: this.chosenHighscore.date,
+          time: this.chosenHighscore.time,
+        };
+        this.leaderboardService.sendSelectedHighscore(selectedHighscore);
+
+
       } else {
         console.log('error - no highscore with that name found');
       }
