@@ -7,6 +7,7 @@ pipeline {
         stage("Build Web") {
             steps {
                //echo "===== OPTIONAL: Will build the website (if needed) ====="
+                // sh "docker build . -t nadiamiteva/best-playz-frontend"
                 sh "npm install"
                 sh "npm run build"
             }
@@ -14,19 +15,19 @@ pipeline {
         stage("Deliver Web") {
             steps {
                echo "===== REQUIRED: Will deliver the website to Docker Hub ====="
-            /*    sh "docker build ./src/WebApi -t nadiamiteva/mysqlserver-db"
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'DockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']])
+            /*
+            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'DockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']])
 				    {
 				    	sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
 				    }
-                sh "docker push nadiamiteva/mysqlserver-db" */
+              sh "docker push nadiamiteva/best-playz-frontend" */
             }
         }
         stage("Release staging environment") {
             steps {
                 echo "===== REQUIRED: Will use Docker Compose to spin up a test environment ====="
-               // sh "docker-compose pull"
-               // sh "docker-compose up -d"
+               // sh "docker-compose -p staging -f docker-compose.yml -f docker-compose.test.yml up -d"
+               // ONLY PRODUCTION sh "docker-compose -p staging -f docker-compose.yml -f docker-compose.prod.yml up -d"
             }
         }
         stage("Automated acceptance test") {
