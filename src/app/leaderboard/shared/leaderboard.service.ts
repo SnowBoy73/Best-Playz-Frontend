@@ -5,12 +5,13 @@ import {Observable} from 'rxjs';
 import {CommentModel} from '../../comment/shared/comment.model';
 import {HighscoreModel} from './highscore.model';
 import {HighscoreDto} from './highscore.dto';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LeaderboardService {
-  constructor(private socket: Socket) { }
+  constructor(private socket: Socket, private router: Router) { }
 
   postHighScore(highscoreDto: HighscoreDto): void {
     console.log('highscore posted = ', highscoreDto);
@@ -27,16 +28,19 @@ export class LeaderboardService {
     this.socket.emit('requestGameHighscores', gameId);
   }
 
+  listenForGameHighscores(): Observable<HighscoreModel[]> {  // Dto??
+    return this.socket
+      .fromEvent<HighscoreModel[]>('gameHighscores');
+  }
+
   sendSelectedHighscore(selectedHighscore: HighscoreDto): void {
     console.log('requestGameHighScore called');
     console.log('DTO: ', selectedHighscore.id, selectedHighscore.nickname, selectedHighscore.gameId, selectedHighscore.score, selectedHighscore.date, selectedHighscore.time);
 
-    this.socket.emit('requestGameHighscores', selectedHighscore);
-  }
-
-  listenForGameHighscores(): Observable<HighscoreModel[]> {  // Dto??
-    return this.socket
-      .fromEvent<HighscoreModel[]>('gameHighscores');
+    this.socket.emit('highscoreDtoFromLeaderboard', selectedHighscore); // obsolete?
+    // CHANGE ROUTE TO COMMENT HERE ???
+    console.log('Navigate to Comment url');
+    this.router.navigate(['/comment'], {state: {data: selectedHighscore}}); // {data: {selectedHighscore}}});
   }
 
   listenForErrors(): Observable<string> {

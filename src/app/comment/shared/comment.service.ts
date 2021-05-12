@@ -8,6 +8,7 @@ import {map} from 'rxjs/operators';
 import {loginDto} from './login.dto';
 import {CommentDto} from './comment.dto';
 import {HighscoreModel} from '../../leaderboard/shared/highscore.model';
+import {HighscoreDto} from '../../leaderboard/shared/highscore.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -25,16 +26,24 @@ export class CommentService {
       .fromEvent<CommentModel>('newComment');
   }
 
-  requestHighscoreComments(highscoreId: string): void {
+  requestHighscoreComments(selectedHighscore: HighscoreDto): void {
     console.log('requestHighscoreComments called');
-    this.socket.emit('requestHighscoreComments', highscoreId);
+    // console.log('DTO: ', selectedHighscore.id, selectedHighscore.nickname, selectedHighscore.gameId, selectedHighscore.score, selectedHighscore.date, selectedHighscore.time);
+
+    this.socket.emit('requestHighscoreComments', selectedHighscore);
   }
 
   listenForHighscoreComments(): Observable<CommentModel[]> {  // Dto??
     return this.socket
       .fromEvent<CommentModel[]>('highscoreComments');
   }
-
+/*
+  sendSelectedHighscore(selectedHighscore: HighscoreDto): void {
+    console.log('sendSelectedHighscore called');
+    console.log('DTO: ', selectedHighscore.id, selectedHighscore.nickname, selectedHighscore.gameId, selectedHighscore.score, selectedHighscore.date, selectedHighscore.time);
+    this.socket.emit('requestHighscoreComments', selectedHighscore);
+  }
+*/
   listenForClients(): Observable<ClientModel[]> {
     return this.socket
       .fromEvent<ClientModel[]>('clients');

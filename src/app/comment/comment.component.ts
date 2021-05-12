@@ -8,6 +8,8 @@ import { CommentModel } from './shared/comment.model';
 import {loginDto} from './shared/login.dto';
 import {StorageService} from '../shared/storage.service';
 import {CommentDto} from './shared/comment.dto';
+import {HighscoreModel} from '../leaderboard/shared/highscore.model';
+import {HighscoreDto} from '../leaderboard/shared/highscore.dto';
 
 @Component({
   selector: 'app-comment',
@@ -16,17 +18,21 @@ import {CommentDto} from './shared/comment.dto';
 })
 export class CommentComponent implements OnInit, OnDestroy {
   commentFC = new FormControl('');
-  comments: CommentModel[] = [];
+  comments: any[] = [];
   unsubscribe$ = new Subject();
   loginFC = new FormControl('');
   clients$: Observable<ClientModel[]> | undefined;
   client: ClientModel | undefined;
   error$: Observable<string> | undefined; // move to app.component for global errors
   socketId: string | undefined;
-  highscoreId = 'mock';  // MOCK
+  // selectedHighscore: Observable<HighscoreDto> | undefined;
+  selectedHighscore: HighscoreDto[] = [];
+
   isLoggedIn = localStorage.length;
   userNickname: string | undefined;
   loggedInUser: ClientModel | undefined;
+  sub: Subscription = new Subscription();
+
 
   constructor(private commentService: CommentService,
               private storageService: StorageService) {
@@ -35,14 +41,44 @@ export class CommentComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     console.log('Comment Component Initialised');
     console.log('Logged in as: ', this.storageService.loadClient()?.nickname); //
-
-    this.commentService.connect(); // MUY IMPORTANTE!!
-
-
+    this.commentService.connect(); // MUY IMPORTANTÉ!!
     this.userNickname = this.storageService.loadClient()?.nickname;
     console.log('comment userNickname: ', this.storageService.loadClient()?.nickname);
 
-    this.commentService.requestHighscoreComments(this.highscoreId); // MOCK gameId
+    console.log('comment init data = ', history.state.data);
+    const selectedHighscore: HighscoreModel = history.state.data as HighscoreModel; // [1];
+    // selectedHighscore.id = history.state.data.
+    console.log('selectedHighscore!! = ', selectedHighscore);
+
+    this.commentService.requestHighscoreComments(selectedHighscore);
+
+
+
+    console.log('comments 1 = ', this.comments);
+
+    this.commentService.listenForHighscoreComments()
+      .pipe(
+          take(1)
+        )
+          .subscribe(comments => {
+            console.log(comments.length, ' comments received');
+            this.comments = comments;
+      });
+
+
+    // this.comments.push(this.commentService.listenForHighscoreComments());
+    console.log('comments 2 = ', this.comments);
+
+// remove?
+  /*  this.sub = this.commentService.listenForGameHighscoreFromLeaderboard()
+      .pipe(
+        takeUntil(this.unsubscribe$)
+      )
+        .subscribe(highscore => {
+          console.log('selectedHighscore= ', highscore);
+          this.selectedHighscore.push(highscore);
+        });*/
+    // this.comments = this.commentService.listenForHighscoreComments();
     this.error$ = this.commentService.listenForErrors(); // move to app.component for global errors
     this.clients$ = this.commentService.listenForClients(); //
     this.commentService.listenForNewComment()
@@ -54,11 +90,12 @@ export class CommentComponent implements OnInit, OnDestroy {
         this.comments.push(comment);
       });
 
-    this.commentService.listenForHighscoreComments() // MOCK gameId
+    this.commentService.listenForHighscoreComments()
       .pipe(
         take(1)
       )
       .subscribe(comments => {
+        console.log(comments);
         console.log(comments.length, ' comments received');
         this.comments = comments;
       });
