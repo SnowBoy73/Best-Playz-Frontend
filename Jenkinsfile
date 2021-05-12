@@ -6,8 +6,9 @@ pipeline {
     stages {
         stage("Build Web") {
             steps {
-               echo "===== OPTIONAL: Will build the website (if needed) ====="
-                //sh "dotnet build src/WebApi/WebApi.csproj"
+               //echo "===== OPTIONAL: Will build the website (if needed) ====="
+                sh "npm install"
+                sh "npm run build"
             }
         }
         stage("Deliver Web") {
