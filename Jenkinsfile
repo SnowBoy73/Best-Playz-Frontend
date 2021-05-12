@@ -7,7 +7,7 @@ pipeline {
         stage("Build Web") {
             steps {
                //echo "===== OPTIONAL: Will build the website (if needed) ====="
-                // sh "docker build . -t nadiamiteva/best-playz-frontend"
+               // sh "docker build . -t best-playz-frontend"
                 sh "npm install"
                 sh "npm run build"
             }
