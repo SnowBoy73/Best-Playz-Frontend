@@ -29,7 +29,6 @@ export class CommentService {
   requestHighscoreComments(selectedHighscore: HighscoreDto): void {
     console.log('requestHighscoreComments called');
     // console.log('DTO: ', selectedHighscore.id, selectedHighscore.nickname, selectedHighscore.gameId, selectedHighscore.score, selectedHighscore.date, selectedHighscore.time);
-
     this.socket.emit('requestHighscoreComments', selectedHighscore);
   }
 
@@ -37,19 +36,13 @@ export class CommentService {
     return this.socket
       .fromEvent<CommentModel[]>('highscoreComments');
   }
-/*
-  sendSelectedHighscore(selectedHighscore: HighscoreDto): void {
-    console.log('sendSelectedHighscore called');
-    console.log('DTO: ', selectedHighscore.id, selectedHighscore.nickname, selectedHighscore.gameId, selectedHighscore.score, selectedHighscore.date, selectedHighscore.time);
-    this.socket.emit('requestHighscoreComments', selectedHighscore);
-  }
-*/
+
   listenForClients(): Observable<ClientModel[]> {
     return this.socket
       .fromEvent<ClientModel[]>('clients');
   }
 
-  listenForCommentWelcome(): Observable<WelcomeDto> {
+  listenForCommentWelcome(): Observable<WelcomeDto> {  // obsolete??
     return this.socket
       .fromEvent<WelcomeDto>('welcome');
   }
@@ -85,10 +78,12 @@ export class CommentService {
   }
 
   disconnect(): void{
+    console.log('service Disconnect called');
     this.socket.disconnect();
   }
 
   connect(): void{
+    console.log('service Connect called');
     this.socket.connect();
   }
 }

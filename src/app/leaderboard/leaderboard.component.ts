@@ -87,7 +87,6 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
       if (this.chosenHighscore) {
         console.log('onNgModelChange = ', this.chosenHighscore.id, this.chosenHighscore.score, this.chosenHighscore.nickname);
         // GO TO COMMENT ROUTE HERE and pass chosenHighscore.id into  @SubscribeMessage('requestHighscoreComments') in backend
-       // this.leaderboardService.
         const selectedHighscore: HighscoreModel = {
           id: this.chosenHighscore.id,
           nickname: this.chosenHighscore.nickname,
@@ -97,8 +96,6 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
           time: this.chosenHighscore.time,
         };
         this.leaderboardService.sendSelectedHighscore(selectedHighscore);
-
-
       } else {
         console.log('error - no highscore with that name found');
       }

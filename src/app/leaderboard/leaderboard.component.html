@@ -34,17 +34,6 @@
             <mat-divider></mat-divider>
           </mat-list-option>
         </mat-selection-list>
-        <!--
-        <mat-list fxFlex class="scrollable-mat-list">
-          <mat-list-item *ngFor="let highscore of highscores">
-            <mat-icon mat-list-icon>face</mat-icon>
-            <div mat-line class="comment-text">Score: {{highscore.score}} Time:{{highscore.time}}</div>
-            <div mat-line class="comment-sender-text" style="font-size: x-small">By {{highscore.nickname}}  on  {{highscore.date}}</div>
-            <mat-divider></mat-divider>
-          </mat-list-item>
-        </mat-list>
-        -->
-
 
       </mat-card-content>
       <mat-card-actions>
@@ -66,6 +55,8 @@
       </mat-card-actions>
 
       <mat-card-footer fxFlex="30px" style="padding-left: 30px">
+        <h5> storage = {{isLoggedIn}} nickname {{userNickname}}</h5>
+
         <div *ngIf="error$ | async as error"
              class="warn-text-colour"
              style="font-family: cursive"

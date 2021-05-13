@@ -31,7 +31,7 @@ export class CommentComponent implements OnInit, OnDestroy {
   isLoggedIn = localStorage.length;
   userNickname: string | undefined;
   loggedInUser: ClientModel | undefined;
-  sub: Subscription = new Subscription();
+  // sub: Subscription = new Subscription();
 
 
   constructor(private commentService: CommentService,
@@ -44,41 +44,19 @@ export class CommentComponent implements OnInit, OnDestroy {
     this.commentService.connect(); // MUY IMPORTANTÉ!!
     this.userNickname = this.storageService.loadClient()?.nickname;
     console.log('comment userNickname: ', this.storageService.loadClient()?.nickname);
-
-    console.log('comment init data = ', history.state.data);
-    const selectedHighscore: HighscoreModel = history.state.data as HighscoreModel; // [1];
-    // selectedHighscore.id = history.state.data.
+    const selectedHighscore: HighscoreModel = history.state.data as HighscoreModel;
     console.log('selectedHighscore!! = ', selectedHighscore);
 
     this.commentService.requestHighscoreComments(selectedHighscore);
-
-
-
-    console.log('comments 1 = ', this.comments);
-
     this.commentService.listenForHighscoreComments()
       .pipe(
-          take(1)
-        )
-          .subscribe(comments => {
-            console.log(comments.length, ' comments received');
-            this.comments = comments;
-      });
-
-
-    // this.comments.push(this.commentService.listenForHighscoreComments());
-    console.log('comments 2 = ', this.comments);
-
-// remove?
-  /*  this.sub = this.commentService.listenForGameHighscoreFromLeaderboard()
-      .pipe(
-        takeUntil(this.unsubscribe$)
+        take(1)
       )
-        .subscribe(highscore => {
-          console.log('selectedHighscore= ', highscore);
-          this.selectedHighscore.push(highscore);
-        });*/
-    // this.comments = this.commentService.listenForHighscoreComments();
+      .subscribe(comments => {
+        console.log(comments);
+        console.log(comments.length, ' comments received');
+        this.comments = comments;
+      });
     this.error$ = this.commentService.listenForErrors(); // move to app.component for global errors
     this.clients$ = this.commentService.listenForClients(); //
     this.commentService.listenForNewComment()
@@ -90,21 +68,12 @@ export class CommentComponent implements OnInit, OnDestroy {
         this.comments.push(comment);
       });
 
-    this.commentService.listenForHighscoreComments()
-      .pipe(
-        take(1)
-      )
-      .subscribe(comments => {
-        console.log(comments);
-        console.log(comments.length, ' comments received');
-        this.comments = comments;
-      });
     this.commentService.listenForConnect()
       .pipe(
         takeUntil(this.unsubscribe$)
       )
       .subscribe((id) => {
-        // console.log('connect id', id);
+        console.log('connect id', id); //
         this.socketId = id;
       });
     this.commentService.listenForDisconnect()
@@ -112,7 +81,7 @@ export class CommentComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribe$)
       )
       .subscribe((id) => {
-        // console.log('disconnect id', id);
+        console.log('disconnect id', id); //
         this.socketId = id;
       });
   }
