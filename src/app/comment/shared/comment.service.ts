@@ -42,11 +42,6 @@ export class CommentService {
       .fromEvent<ClientModel[]>('clients');
   }
 
-  listenForCommentWelcome(): Observable<WelcomeDto> {  // obsolete??
-    return this.socket
-      .fromEvent<WelcomeDto>('welcome');
-  }
-
   listenForErrors(): Observable<string> {
     return this.socket
       .fromEvent<string>('error');
