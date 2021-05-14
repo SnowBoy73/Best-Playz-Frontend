@@ -17,12 +17,10 @@
   <div fxLayout="column" fxFlex="70" >
     <mat-card fxFlex fxLayout="column">
       <mat-card-header>
-        <h2>HighScores (socketId = {{socketId}})</h2>
+        <h2>HighScores for {{selectedGame}}</h2>
       </mat-card-header>
-      <mat-card-content fxFlex fxLayout="column">
-<!--
--->
 
+      <mat-card-content fxFlex fxLayout="column">
         <mat-selection-list fxFlex class="scrollList"
                             #hiscores [(ngModel)]="highscoreSelected" (ngModelChange)="onNgModelChange($event)" [multiple]="false">
           <mat-list-option *ngFor="let highscore of highscores"
@@ -34,8 +32,8 @@
             <mat-divider></mat-divider>
           </mat-list-option>
         </mat-selection-list>
-
       </mat-card-content>
+
       <mat-card-actions>
         <div *ngIf="isLoggedIn">
           <mat-form-field class="primary-text-colour" fxFlex="40">
@@ -55,20 +53,19 @@
       </mat-card-actions>
 
       <mat-card-footer fxFlex="30px" style="padding-left: 30px">
-        <h5> storage = {{isLoggedIn}} nickname {{userNickname}}</h5>
-
+        <!--<h5> storage = {{isLoggedIn}} nickname {{userNickname}}</h5>-->
         <div *ngIf="error$ | async as error"
              class="warn-text-colour"
              style="font-family: cursive"
              style="font-size: 14px">
           {{error}}
         </div>
-        <div *ngIf="!socketId"
+        <!--<div *ngIf="!socketId"
              class="warn-text-colour"
              style="font-family: cursive"
              style="font-size: 14px">
           You are not connected
-        </div>
+        </div>-->
       </mat-card-footer>
     </mat-card >
 

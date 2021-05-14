@@ -26,6 +26,7 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
   userNickname: string | undefined;
   highscoreSelected = '';
   chosenHighscore: HighscoreModel | undefined;
+  selectedGame = 'Super Ninja Dude'; // MOCK
 
   constructor(private leaderboardService: LeaderboardService,
               private storageService: StorageService) { }

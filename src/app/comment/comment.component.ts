@@ -25,9 +25,7 @@ export class CommentComponent implements OnInit, OnDestroy {
   client: ClientModel | undefined;
   error$: Observable<string> | undefined; // move to app.component for global errors
   socketId: string | undefined;
-  // selectedHighscore: Observable<HighscoreDto> | undefined;
   selectedHighscore: HighscoreModel | undefined;
-
   isLoggedIn = localStorage.length;
   userNickname: string | undefined;
   loggedInUser: ClientModel | undefined;
