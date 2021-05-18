@@ -4,34 +4,36 @@ pipeline {
         pollSCM("H/5 * * * *")
     }
     stages {
-        stage("Build Web") {
+        stage("Build") {
             steps {
-               //echo "===== OPTIONAL: Will build the website (if needed) ====="
+               //echo "===== REQUIRED: Will build the website ====="
+                //sh "docker build . -t best-playz-frontend"
                 sh "npm install"
                 sh "npm run build"
+                //sh "docker build . -t best-playz-frontend_app"
             }
         }
-        stage("Deliver Web") {
+        stage("Deliver") {
             steps {
                echo "===== REQUIRED: Will deliver the website to Docker Hub ====="
-            /*    sh "docker build ./src/WebApi -t nadiamiteva/mysqlserver-db"
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'DockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']])
+            /*
+            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'DockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']])
 				    {
 				    	sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
 				    }
-                sh "docker push nadiamiteva/mysqlserver-db" */
+              sh "docker push nadiamiteva/best-playz-frontend_app" */
             }
         }
-        stage("Release staging environment") {
+        stage("Release to test environment") {
             steps {
-                echo "===== REQUIRED: Will use Docker Compose to spin up a test environment ====="
-               // sh "docker-compose pull"
-               // sh "docker-compose up -d"
+                //echo "===== REQUIRED: Will use Docker Compose to spin up a test environment ====="
+               sh "docker-compose -p staging -f docker-compose.yml -f docker-compose.test.yml up -d"
+
             }
         }
         stage("Automated acceptance test") {
             steps {
-              echo"=====Selenium in frontend Todo==="
+              echo"==== REQUIRED:Selenium in Frontend ===="
             }
         }
     }
