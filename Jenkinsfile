@@ -27,8 +27,8 @@ pipeline {
         }
         stage("Release to test environment") {
             steps {
-                //echo "===== REQUIRED: Will use Docker Compose to spin up a test environment ====="
-               sh "docker-compose -p staging -f docker-compose.yml -f docker-compose.test.yml up -d"
+                echo "===== REQUIRED: Will use Docker Compose to spin up a test environment ====="
+              // sh "docker-compose -p staging -f docker-compose.yml -f docker-compose.test.yml up -d"
 
             }
         }
