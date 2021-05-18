@@ -17,8 +17,8 @@ pipeline {
             steps {
               // echo "===== REQUIRED: Will deliver the website to Docker Hub ====="
 
-            withCredentials([usernamePassword(credentialsId: 'DockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
-            {
+            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'DockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']])
+				    {
 				    	sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
 				    }
               sh "docker push nadiamiteva/best-playz-frontend_app"
