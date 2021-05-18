@@ -10,7 +10,7 @@ pipeline {
                 //sh "docker build . -t best-playz-frontend"
                 sh "npm install"
                 sh "npm run build"
-                sh "docker build . -t best-playz-frontend_app"
+               // sh "docker build . -t best-playz-frontend_app"
             }
         }
         stage("Deliver") {
