@@ -8,6 +8,8 @@ import { CommentModel } from './shared/comment.model';
 import {loginDto} from './shared/login.dto';
 import {StorageService} from '../shared/storage.service';
 import {CommentDto} from './shared/comment.dto';
+import {HighscoreModel} from '../leaderboard/shared/highscore.model';
+import {HighscoreDto} from '../leaderboard/shared/highscore.dto';
 
 @Component({
   selector: 'app-comment',
@@ -16,17 +18,18 @@ import {CommentDto} from './shared/comment.dto';
 })
 export class CommentComponent implements OnInit, OnDestroy {
   commentFC = new FormControl('');
-  comments: CommentModel[] = [];
+  comments: any[] = [];
   unsubscribe$ = new Subject();
   loginFC = new FormControl('');
   clients$: Observable<ClientModel[]> | undefined;
   client: ClientModel | undefined;
   error$: Observable<string> | undefined; // move to app.component for global errors
   socketId: string | undefined;
-  highscoreId = 'mock';  // MOCK
+  selectedHighscore: HighscoreModel | undefined;
   isLoggedIn = localStorage.length;
   userNickname: string | undefined;
   loggedInUser: ClientModel | undefined;
+
 
   constructor(private commentService: CommentService,
               private storageService: StorageService) {
@@ -35,39 +38,51 @@ export class CommentComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     console.log('Comment Component Initialised');
     console.log('Logged in as: ', this.storageService.loadClient()?.nickname); //
-
-    this.commentService.connect(); // MUY IMPORTANTE!!
-
-
+    this.commentService.connect(); // MUY IMPORTANTÉ!!
     this.userNickname = this.storageService.loadClient()?.nickname;
     console.log('comment userNickname: ', this.storageService.loadClient()?.nickname);
+    this.selectedHighscore = history.state.data as HighscoreModel;
+    console.log('selectedHighscore!! = ', this.selectedHighscore);
 
-    this.commentService.requestHighscoreComments(this.highscoreId); // MOCK gameId
+    this.commentService.requestHighscoreComments(this.selectedHighscore);
+    this.commentService.listenForHighscoreComments()
+      .pipe(
+        take(1)
+      )
+      .subscribe(comments => {
+        console.log(comments);
+        console.log(comments.length, ' comments received');
+        this.comments = comments;
+      });
     this.error$ = this.commentService.listenForErrors(); // move to app.component for global errors
     this.clients$ = this.commentService.listenForClients(); //
+
+
     this.commentService.listenForNewComment()
       .pipe(
         takeUntil(this.unsubscribe$)
       )
       .subscribe(comment => {
         console.log('comment received');
-        this.comments.push(comment);
+        if (this.selectedHighscore) {
+          console.log( 'New comment = ', comment);
+          console.log( 'selectedHighscore  = ', this.selectedHighscore);
+
+          if (comment.highscoreId === this.selectedHighscore.id) {
+            console.log( 'equal  = true');
+
+            this.comments.push(comment);
+          }
+        }
+
       });
 
-    this.commentService.listenForHighscoreComments() // MOCK gameId
-      .pipe(
-        take(1)
-      )
-      .subscribe(comments => {
-        console.log(comments.length, ' comments received');
-        this.comments = comments;
-      });
     this.commentService.listenForConnect()
       .pipe(
         takeUntil(this.unsubscribe$)
       )
       .subscribe((id) => {
-        // console.log('connect id', id);
+        console.log('connect id', id); //
         this.socketId = id;
       });
     this.commentService.listenForDisconnect()
@@ -75,7 +90,7 @@ export class CommentComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribe$)
       )
       .subscribe((id) => {
-        // console.log('disconnect id', id);
+        console.log('disconnect id', id); //
         this.socketId = id;
       });
   }
@@ -92,13 +107,18 @@ export class CommentComponent implements OnInit, OnDestroy {
     // loggedInUser = this.storageService.loadCommentClient();
     if (this.storageService.loadClient()?.nickname) {
       if (this.commentFC.value) {
-        const commentDto: CommentDto = {
-          highscoreId: '1',  // MOCK !!!
-          text: this.commentFC.value,
-          sender: this.storageService.loadClient()?.nickname,
-        };
-        this.commentService.postComment(commentDto);
-        this.commentFC.patchValue('');
+        if (this.selectedHighscore) {
+
+          const commentDto: CommentDto = {
+            highscoreId: this.selectedHighscore?.id,  // NEW !!!
+            text: this.commentFC.value,
+            sender: this.storageService.loadClient()?.nickname,
+          };
+          console.log('highscoreId:', commentDto.highscoreId);
+
+          this.commentService.postComment(commentDto);
+          this.commentFC.patchValue('');
+        }
       }
     }
   }

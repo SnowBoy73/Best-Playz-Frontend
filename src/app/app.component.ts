@@ -53,19 +53,18 @@ export class AppComponent implements OnInit{
 
 
   listenForCommentWelcome(): Observable < WelcomeDto > { // to service?
+    console.log('app comp - listenForCommentWelcome called');
     return this.socket
       .fromEvent<WelcomeDto>('welcome');
     // location.reload(); // doesn't work
 
   }
-
-
-    /* Can put global error listening here (from comment service)!!
+    /*
+    // Can put global error listening here (from comment service)!!
     listenForErrors(): Observable<string> {
       return this.socket
         .fromEvent<string>('error');
    */
-
   login(): void {
     this.loginRequest = true;
   }

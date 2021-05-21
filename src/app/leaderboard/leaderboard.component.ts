@@ -26,6 +26,7 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
   userNickname: string | undefined;
   highscoreSelected = '';
   chosenHighscore: HighscoreModel | undefined;
+  selectedGame = 'Super Ninja Dude'; // MOCK
 
   constructor(private leaderboardService: LeaderboardService,
               private storageService: StorageService) { }
@@ -62,7 +63,7 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
       if (this.highscoreFC.value) {
         const highscoreDto: HighscoreDto = {
           nickname: this.storageService.loadClient()?.nickname,
-          gameId: 1,  // MOCK !!!
+          gameId: 'c817554b-6a1c-4408-a749-a5650fe92798',  // MOCK in uuid format !!!
           score: this.highscoreFC.value,
           time: 123, // MOCK
         };
@@ -79,15 +80,23 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
     this.leaderboardService.disconnect();
   }
 
-  onNgModelChange($event: any) {
+  onNgModelChange($event: any): any {
     if (this.highscoreSelected.length !== 0)
     {
-      const highscoreName = this.highscoreSelected[0].toString();
-      this.chosenHighscore = this.highscores.find(uh => uh.id === highscoreName);
+      const highscoreId = this.highscoreSelected[0].toString();
+      this.chosenHighscore = this.highscores.find(uh => uh.id === highscoreId);
       if (this.chosenHighscore) {
-        console.log(this.chosenHighscore.id, this.chosenHighscore.score, this.chosenHighscore.nickname);
-        
-        // GO TO COMMENT ROUTE HERE     // this.stockFC.patchValue(this.updatedStock.currentPrice);
+        console.log('onNgModelChange = ', this.chosenHighscore.id, this.chosenHighscore.score, this.chosenHighscore.nickname);
+        // GO TO COMMENT ROUTE HERE and pass chosenHighscore.id into  @SubscribeMessage('requestHighscoreComments') in backend
+        const selectedHighscore: HighscoreModel = {
+          id: this.chosenHighscore.id,
+          nickname: this.chosenHighscore.nickname,
+          gameId: this.chosenHighscore.gameId,
+          score: this.chosenHighscore.score,  // no double... has decimals??
+          date: this.chosenHighscore.date,
+          time: this.chosenHighscore.time,
+        };
+        this.leaderboardService.sendSelectedHighscore(selectedHighscore);
       } else {
         console.log('error - no highscore with that name found');
       }
