@@ -9,18 +9,18 @@ pipeline {
                //echo "===== REQUIRED: Will build the website ====="
                 sh "npm install"
                 sh "npm run build"
-               // sh "docker build . -t best-playz-frontend_app"
+                sh "docker build . -t best-playz-frontend_app"
             }
         }
         stage("Deliver") {
             steps {
             // echo " ===== REQUIRED: Will deliver the website to Docker Hub ===== "
-            sh "docker build . -t best-playz-frontend_app"
+
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'DockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']])
 				    {
 				    	sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
 				    }
-              sh "docker push nadiamiteva/best-playz-frontend_app" */
+              sh "docker push nadiamiteva/best-playz-frontend_app"
 
             }
         }
