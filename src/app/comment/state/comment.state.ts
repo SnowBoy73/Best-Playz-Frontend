@@ -2,8 +2,15 @@ import { Injectable } from '@angular/core';
 import {Action, Selector, State, StateContext} from '@ngxs/store';
 import {ClientModel} from '../shared/client.model';
 import {CommentModel} from '../shared/comment.model';
-import {ListenForClients, ListenForHighscoreComments, UpdateClients, UpdateHighscoreComments} from './comment.actions';
+import {
+  ListenForClients,
+  ListenForHighscoreComments,
+  StopListeningForClients,
+  UpdateClients,
+  UpdateHighscoreComments
+} from './comment.actions';
 import {CommentService} from '../shared/comment.service';
+import {Subscription} from 'rxjs';
 
 export interface CommentStateModel {
   clients: ClientModel[];
@@ -21,6 +28,7 @@ export interface CommentStateModel {
 })
 @Injectable()
 export class CommentState {
+  private clientsUnsub: Subscription | undefined;
 
   constructor(private commentService: CommentService) {}
 
@@ -29,13 +37,25 @@ export class CommentState {
     return state.clients;
   }
 
-    @Action(ListenForClients)
+  @Selector()
+  static comments(state: CommentStateModel): CommentModel[] {
+    return state.comments;
+  }
+
+  @Action(ListenForClients)
   getClients(ctx: StateContext<CommentStateModel>): void {
-      this.commentService.listenForClients()
+      this.clientsUnsub = this.commentService.listenForClients()
         .subscribe(clients => {
           ctx.dispatch(new UpdateClients(clients));
         });
     }
+
+  @Action(StopListeningForClients)
+  stopListeningForClients(ctx: StateContext<CommentStateModel>): void {
+    if (this.clientsUnsub) {
+      this.clientsUnsub.unsubscribe();
+    }
+  }
 
   @Action(UpdateClients)
   updateClients(ctx: StateContext<CommentStateModel>, uc: UpdateClients): void {
@@ -50,11 +70,6 @@ export class CommentState {
         };
         ctx.setState(newState);
       });
-  }
-
-  @Selector()
-  static comments(state: CommentStateModel): CommentModel[] {
-    return state.comments;
   }
 
   @Action(ListenForHighscoreComments)

@@ -12,7 +12,7 @@ import {HighscoreModel} from '../leaderboard/shared/highscore.model';
 import {HighscoreDto} from '../leaderboard/shared/highscore.dto';
 import {CommentState} from './state/comment.state';
 import {Select, Store} from '@ngxs/store';
-import {ListenForClients, ListenForHighscoreComments} from './state/comment.actions';
+import {ListenForClients, ListenForHighscoreComments, StopListeningForClients} from './state/comment.actions';
 
 @Component({
   selector: 'app-comment',
@@ -107,6 +107,7 @@ export class CommentComponent implements OnInit, OnDestroy {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     this.commentService.disconnect();  // Removed to stay connected between routes
+    this.store.dispatch(new StopListeningForClients());
   }
 
   postComment(): void {
