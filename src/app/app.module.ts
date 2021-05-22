@@ -6,6 +6,7 @@ import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import {environment} from '../environments/environment';
+import {NgxsModule} from '@ngxs/store';
 
 const config: SocketIoConfig = { url: environment.backendUrl, options: {} };
 
@@ -18,7 +19,10 @@ const config: SocketIoConfig = { url: environment.backendUrl, options: {} };
     AppRoutingModule,
     SocketIoModule.forRoot(config),
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
+    NgxsModule.forRoot([], {
+      developmentMode: !environment.production
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
