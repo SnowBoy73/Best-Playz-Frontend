@@ -12,7 +12,7 @@ import {HighscoreModel} from '../leaderboard/shared/highscore.model';
 import {HighscoreDto} from '../leaderboard/shared/highscore.dto';
 import {CommentState} from './state/comment.state';
 import {Select, Store} from '@ngxs/store';
-import {GetClients} from './state/comment.actions';
+import {ListenForClients} from './state/comment.actions';
 
 @Component({
   selector: 'app-comment',
@@ -59,7 +59,9 @@ export class CommentComponent implements OnInit, OnDestroy {
         this.comments = comments;
       });
     this.error$ = this.commentService.listenForErrors(); // move to app.component for global errors
-    this.clients$ = this.commentService.listenForClients(); //
+    // new State MGMT bit
+    // this.clients$ = this.commentService.listenForClients(); //
+    this.store.dispatch(new ListenForClients()); // NEW and EXPERIMENTAL - seems to work!!
 
 
     this.commentService.listenForNewComment()
@@ -112,7 +114,7 @@ export class CommentComponent implements OnInit, OnDestroy {
       if (this.commentFC.value) {
         if (this.selectedHighscore) {
 
-          this.store.dispatch(new GetClients()); // NEW and EXPERIMENTAL
+         // this.store.dispatch(new ListenForClients()); // NEW and EXPERIMENTAL
 
           const commentDto: CommentDto = {
             highscoreId: this.selectedHighscore?.id,

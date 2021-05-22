@@ -1,3 +1,3 @@
-export class GetClients {
-  static readonly type = '[Comment] Get Clients';
+export class ListenForClients {
+  static readonly type = '[Comment] Listen For Clients';
 }
