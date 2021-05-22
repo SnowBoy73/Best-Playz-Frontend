@@ -63,7 +63,7 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
       if (this.highscoreFC.value) {
         const highscoreDto: HighscoreDto = {
           nickname: this.storageService.loadClient()?.nickname,
-          gameId: 'c817554b-6a1c-4408-a749-a5650fe92798',  // MOCK in uuid format !!!
+          gameId: this.selectedGame,  // MOCK in uuid format !!!
           score: this.highscoreFC.value,
           time: 123, // MOCK
         };
