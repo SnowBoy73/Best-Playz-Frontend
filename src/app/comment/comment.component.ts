@@ -12,7 +12,7 @@ import {HighscoreModel} from '../leaderboard/shared/highscore.model';
 import {HighscoreDto} from '../leaderboard/shared/highscore.dto';
 import {CommentState} from './state/comment.state';
 import {Select, Store} from '@ngxs/store';
-import {ListenForClients} from './state/comment.actions';
+import {ListenForClients, ListenForHighscoreComments} from './state/comment.actions';
 
 @Component({
   selector: 'app-comment',
@@ -62,6 +62,7 @@ export class CommentComponent implements OnInit, OnDestroy {
     // new State MGMT bit
     // this.clients$ = this.commentService.listenForClients(); //
     this.store.dispatch(new ListenForClients()); // NEW and EXPERIMENTAL - seems to work!!
+    this.store.dispatch(new ListenForHighscoreComments()); // NEW and EXPERIMENTAL - seems to work!!
 
 
     this.commentService.listenForNewComment()

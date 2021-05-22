@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Action, Selector, State, StateContext} from '@ngxs/store';
 import {ClientModel} from '../shared/client.model';
 import {CommentModel} from '../shared/comment.model';
-import {ListenForClients} from './comment.actions';
+import {ListenForClients, ListenForHighscoreComments, UpdateClients, UpdateHighscoreComments} from './comment.actions';
 import {CommentService} from '../shared/comment.service';
 
 export interface CommentStateModel {
@@ -14,7 +14,7 @@ export interface CommentStateModel {
 @State<CommentStateModel>({
   name: 'comment',
   defaults: {
-    clients: [{id: '42', nickname: 'Crazy Bob'}],
+    clients: [],
     client: undefined,
     comments: []
   }
@@ -31,20 +31,53 @@ export class CommentState {
 
     @Action(ListenForClients)
   getClients(ctx: StateContext<CommentStateModel>): void {
+      this.commentService.listenForClients()
+        .subscribe(clients => {
+          ctx.dispatch(new UpdateClients(clients));
+        });
+    }
+
+  @Action(UpdateClients)
+  updateClients(ctx: StateContext<CommentStateModel>, uc: UpdateClients): void {
     this.commentService.listenForClients()
       .subscribe(clients => {
         const state = ctx.getState();
-
-        const oldClients = [...state.clients];
-        oldClients.push({id: '2', nickname: 'test'});
-
+        // const oldClients = [...state.clients];
+        // oldClients.push({id: '2', nickname: 'test'});
         const newState: CommentStateModel = {
           ...state,
-          clients: clients // [...oldClients]
+          clients: uc.clients
         };
         ctx.setState(newState);
       });
+  }
 
+  @Selector()
+  static comments(state: CommentStateModel): CommentModel[] {
+    return state.comments;
+  }
+
+  @Action(ListenForHighscoreComments)
+    getHighcoreComments(ctx: StateContext<CommentStateModel>): void {
+      this.commentService.listenForHighscoreComments()
+        .subscribe(comments => {
+          ctx.dispatch(new UpdateHighscoreComments(comments));
+        });
+  }
+
+  @Action(UpdateHighscoreComments)
+    updateHighcoreComments(ctx: StateContext<CommentStateModel>, uhc: UpdateHighscoreComments): void {
+      this.commentService.listenForHighscoreComments()
+        .subscribe(comments => {
+          const state = ctx.getState();
+          // const oldClients = [...state.clients];
+          // oldClients.push({id: '2', nickname: 'test'});
+          const newState: CommentStateModel = {
+            ...state,
+            comments: uhc.comments
+          };
+          ctx.setState(newState);
+        });
   }
 
 }
