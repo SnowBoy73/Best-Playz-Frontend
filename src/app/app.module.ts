@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import {environment} from '../environments/environment';
 import {NgxsModule} from '@ngxs/store';
+import {CommentState} from './comment/state/comment.state';
 
 const config: SocketIoConfig = { url: environment.backendUrl, options: {} };
 
@@ -20,7 +21,7 @@ const config: SocketIoConfig = { url: environment.backendUrl, options: {} };
     SocketIoModule.forRoot(config),
     BrowserAnimationsModule,
     SharedModule,
-    NgxsModule.forRoot([], {
+    NgxsModule.forRoot([CommentState], {
       developmentMode: !environment.production
     })
   ],
