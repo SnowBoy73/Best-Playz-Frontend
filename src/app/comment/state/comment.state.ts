@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Action, State, StateContext} from '@ngxs/store';
-import {WelcomeDto} from '../shared/welcome.dto';
+import {Action, Selector, State, StateContext} from '@ngxs/store';
 import {ClientModel} from '../shared/client.model';
 import {CommentModel} from '../shared/comment.model';
 import {GetClients} from './comment.actions';
@@ -11,23 +10,31 @@ export interface CommentStateModel {
   comments: CommentModel[];
 }
 
-@State<any>({
+@State<CommentStateModel>({
   name: 'comment',
   defaults: {
-    clients: [],
+    clients: [{id: '42', nickname: 'Crazy Bob'}],
     client: undefined,
     comments: []
   }
 })
 @Injectable()
 export class CommentState {
-  @Action(GetClients)
-  getClients(ctx: StateContext<CommentStateModel>) {
+  @Selector()
+  static clients(state: CommentStateModel): ClientModel[] {
+    return state.clients;
+  }
+    @Action(GetClients)
+  getClients(ctx: StateContext<CommentStateModel>): void {
     const state = ctx.getState();
+
+    const oldClients = [...state.clients];
+    oldClients.push({id: '2', nickname: 'test'});
+
     const newState: CommentStateModel = {
-      ...state,
-      clients: [{id: '2', nickname: 'test'}]
-    };
+    ...state,
+    clients: [...oldClients]
+  };
     ctx.setState(newState);
   }
 }
