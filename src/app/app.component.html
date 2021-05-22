@@ -1,11 +1,10 @@
 
-
 <div fxLayout="column" fxFill fxLayoutGap="10px"  *ngIf="loginRequest !== true">
   <div fxLayout="row">
     <a routerLink="/">Home</a>----
     <a routerLink="/leaderboard">Leaderboard</a>----
     <a routerLink="/comment">Comments</a>
-
+    <h5> storage = {{isLoggedIn}}</h5>
     <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn == 0">
 
         <h4>Not logged in</h4>
