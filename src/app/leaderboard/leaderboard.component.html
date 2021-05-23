@@ -2,14 +2,24 @@
   <div fxLayout="column" fxFlex="30" class="mat-card-margin">
     <mat-card fxFlex>
       <mat-card-header>
-        <h5>Game details</h5>
+        <span mat-line class="typewriter-text-sm-1">Game: </span>
+        <h1></h1>
+        <div mat-line class="gameId-text">{{selectedGame}}</div>
+        <h1></h1>
       </mat-card-header>
       <mat-card-content>
-          <ul>
-            <li *ngFor="let highscore of highscores">
-              {{highscore.score}} by {{highscore.nickname}} on {{highscore.date}}
-            </li>
-          </ul>
+        <div mat-line class="count-text-1"> {{highscores.length}} Highscores posted</div>
+        <mat-divider></mat-divider>
+        <h1></h1>
+        <h1 class="hall-of-fame-text">Hall of Fame</h1>
+        <h1></h1>
+
+        <div class="first-text" *ngIf="highscores.length>0">1st: {{highscores[0].nickname}} {{highscores[0].score}}</div>
+        <div class="second-text" *ngIf="highscores.length>1">2nd: {{highscores[1].nickname}} {{highscores[1].score}}</div>
+        <div class="third-text" *ngIf="highscores.length>2">3rd: {{highscores[2].nickname}} {{highscores[2].score}}</div>
+        <div class="forth-text" *ngIf="highscores.length>2">4th: {{highscores[3].nickname}} {{highscores[3].score}}</div>
+        <div class="fifth-text" *ngIf="highscores.length>2">5th: {{highscores[4].nickname}} {{highscores[4].score}}</div>
+
       </mat-card-content>
     </mat-card>
   </div>

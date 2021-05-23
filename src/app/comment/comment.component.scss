@@ -4,28 +4,40 @@
 
 .gameId-text {
   color: darkslategrey;
-  font-size:24px;
+  font-size:28px;
   font-family: fantasy;
+  padding-bottom: 20px;
 }
 
-.score-text {
+.typewriter-text-sm-1 {
+  text-align: center;
   color: seagreen;
-  font-size:20px;
-  font-family: "American Typewriter";
-}
-
-.score-text {
-  color: seagreen;
-  font-size:20px;
-  font-family: "American Typewriter";
-}
-
-.player-text {
-  color: greenyellow;
   font-size:18px;
   font-family: "American Typewriter";
 }
 
+.score-text {
+  text-align: center;
+  color: seagreen;
+  font-size:32px;
+  font-family: "sans-serif";
+  padding-bottom: 10px;
+}
+
+.player-text {
+  text-align: center;
+  color: darkslategray;
+  font-size:32px;
+  font-family: "American Typewriter";
+  padding-bottom: 10px;
+}
+
+.time-text {
+  text-align: center;
+  color: lightblue;
+  font-size:18px;
+  font-family: "American Typewriter";
+}
 .mat-card-margin {
   margin: 10px;
 }

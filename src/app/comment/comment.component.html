@@ -3,18 +3,16 @@
     <mat-card fxFlex>
       <mat-card-header>
         <div *ngIf="!selectedHighscore">
-          <h1></h1>
           <h3>No Highscore selected</h3>
         </div>
         <div *ngIf="selectedHighscore">
-          <span mat-line class="score-text">Game: </span>
+          <span mat-line class="typewriter-text-sm-1">Game: </span>
           <h1></h1>
-
           <div mat-line class="gameId-text">{{selectedHighscore.gameId}}</div>
           <h1></h1>
-
           <div mat-line class="score-text"> Score: {{selectedHighscore.score}} Time: {{selectedHighscore.time}}</div>
-          <div mat-line class="player-text" style="font-size: small">By {{selectedHighscore.nickname}} on  {{selectedHighscore.date}}</div>
+          <div mat-line class="player-text">by {{selectedHighscore.nickname}}</div>
+            <div mat-line class="time-text">on  {{selectedHighscore.date}}</div>
         </div>
       </mat-card-header>
 

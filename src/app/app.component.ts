@@ -23,7 +23,7 @@ export class AppComponent implements OnInit{
   loginFC = new FormControl('');
   unsubscribe$ = new Subject();
   gameSelected = 'Super Ninja Dude';
-  allGames: string[] = ['Super Ninja Dude', 'Radical CakeMan', 'Crazy Smurf Basher', 'Happy Flower Waterer'];
+  allGames: string[] = ['Super Ninja Dude', 'Radical CakeMan', 'Crazy Smurf Bash', 'Happy Flower Waterer'];
   chosenGame: string | undefined;
   error = '';
 
