@@ -31,8 +31,7 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     console.log('Leaderboard Component Initialised');
     this.userNickname = this.storageService.loadClient()?.nickname;
-
-    this.leaderboardService.requestGameHighscores(this.gameId) // MOCK gameId
+    this.leaderboardService.requestGameHighscores(this.gameId); // MOCK gameId
     this.error$ = this.leaderboardService.listenForErrors(); // move to app.component for global errors
     this.leaderboardService.listenForNewHighscore()
       .pipe(
@@ -41,14 +40,17 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
       .subscribe(highscore => {
         console.log('highscore received');
         this.highscores.push(highscore);
+        this.highscores.sort((a, b ) => a.score < b.score  && 1 || -1);
       });
+
     this.leaderboardService.listenForGameHighscores() // MOCK gameId
       .pipe(
         take(1)
       )
       .subscribe(highscores => {
         console.log(highscores.length, ' highscores received');
-        this.highscores = highscores;
+        this.highscores = highscores.sort((a, b ) => a.score < b.score  && 1 || -1);
+
       });
     this.leaderboardService.connect(); // MUY IMPORTANTE!!
   }

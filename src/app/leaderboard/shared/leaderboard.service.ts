@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import {CommentDto} from '../../comment/shared/comment.dto';
 import {Socket} from 'ngx-socket-io';
 import {Observable} from 'rxjs';
-import {CommentModel} from '../../comment/shared/comment.model';
 import {HighscoreModel} from './highscore.model';
 import {HighscoreDto} from './highscore.dto';
 import {Router} from '@angular/router';

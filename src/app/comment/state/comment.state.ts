@@ -29,7 +29,6 @@ export interface CommentStateModel {
 @Injectable()
 export class CommentState {
   private clientsUnsub: Subscription | undefined;
-
   constructor(private commentService: CommentService) {}
 
   @Selector()
@@ -44,11 +43,11 @@ export class CommentState {
 
   @Action(ListenForClients)
   getClients(ctx: StateContext<CommentStateModel>): void {
-      this.clientsUnsub = this.commentService.listenForClients()
-        .subscribe(clients => {
-          ctx.dispatch(new UpdateClients(clients));
-        });
-    }
+    this.clientsUnsub = this.commentService.listenForClients()
+      .subscribe(clients => {
+        ctx.dispatch(new UpdateClients(clients));
+      });
+  }
 
   @Action(StopListeningForClients)
   stopListeningForClients(ctx: StateContext<CommentStateModel>): void {
@@ -85,8 +84,6 @@ export class CommentState {
       this.commentService.listenForHighscoreComments()
         .subscribe(comments => {
           const state = ctx.getState();
-          // const oldClients = [...state.clients];
-          // oldClients.push({id: '2', nickname: 'test'});
           const newState: CommentStateModel = {
             ...state,
             comments: uhc.comments
