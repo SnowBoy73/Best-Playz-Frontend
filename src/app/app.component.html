@@ -1,10 +1,10 @@
+<body style="background-color:whitesmoke;">
 
 <div fxLayout="column" fxFill fxLayoutGap="10px"  *ngIf="loginRequest !== true">
   <div fxLayout="row">
     <a routerLink="/">Home</a>----
     <a routerLink="/leaderboard">Leaderboard</a>----
     <a routerLink="/comment">Comments</a>
-    <h5> storage = {{isLoggedIn}}</h5>
     <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn == 0">
 
         <h4>Not logged in</h4>
@@ -13,21 +13,66 @@
     </div>
 
     <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn !== 0">
-        <h4 > Logged in as {{loggedInUser?.nickname}} </h4>
-
+      <h4 > Logged in as {{loggedInUser?.nickname}} </h4>
       <button (click)="logout()">Logout</button>
     </div>
   </div>
   <router-outlet class="router-flex"></router-outlet>
 
+
+
+  <div fxLayout="column" fxLayoutAlign="center center" fxFlex *ngIf="router.url === '/'">
+    <mat-card fxFlex="70">
+      <mat-card-header fxLayoutAlign="center top">
+        <mat-card-title fxLayoutAlign="center top" class="big-typewriter-text2">Welcome to</mat-card-title>
+        <mat-card-title fxLayoutAlign="center top" class="big-typewriter-text1">Best Playz</mat-card-title>
+        <h3></h3>
+        <mat-card-title fxLayoutAlign="center top" class="big-typewriter-text3">Choose your Game</mat-card-title>
+
+      </mat-card-header>
+      <mat-card-content>
+
+        <mat-selection-list fxFlex class="scrollable-mat-list"
+                            #games [(ngModel)]="gameSelected" (ngModelChange)="onNgModelChange($event)" [multiple]="false">
+          <mat-list-option *ngFor="let game of allGames"
+                           (click)="onNgModelChange(games)" [value]="game">
+            <mat-icon mat-list-icon>sports_esports</mat-icon>
+            <div mat-line class="comment-text">{{game}}</div>
+            <mat-divider></mat-divider>
+          </mat-list-option>
+        </mat-selection-list>
+
+      </mat-card-content>
+      <mat-card-footer style="padding-left: 30px"
+                       class="warn-text-colour"
+                       style="font-family: cursive"
+                       style="font-size: 14px"
+                       fxLayoutAlign="center">
+
+        {{error}}
+      </mat-card-footer>
+
+    </mat-card>
+
+  </div>
+
+
+
+
 </div>
 
-<div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="loginRequest == true"  style="padding: 20px" fxLayoutGap="10px">
+
+
+
+
+
+
+<div fxLayout="column" fxLayoutAlign="center center" fxFlex *ngIf="loginRequest == true"  style="padding: 20px" fxLayoutGap="10px">
   <mat-card fxFlex="27">
 
     <mat-card-header fxLayoutAlign="center top">
-      <mat-card-title fxLayoutAlign="center top" style="font-size: x-large; font-family: 'American Typewriter'">Welcome to</mat-card-title>
-      <mat-card-title style="font-size: xxx-large; font-family: 'American Typewriter'">Best Playz</mat-card-title>
+      <mat-card-title fxLayoutAlign="center top" class="big-typewriter-text2">Welcome to</mat-card-title>
+      <mat-card-title class="big-typewriter-text1">Best Playz</mat-card-title>
     </mat-card-header>
 
     <mat-card-content>
@@ -39,5 +84,9 @@
         </button>
       </mat-form-field>
     </mat-card-content>
+
   </mat-card>
 </div>
+
+</body>
+

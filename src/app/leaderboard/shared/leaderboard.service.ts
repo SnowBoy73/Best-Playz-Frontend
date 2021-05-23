@@ -38,9 +38,9 @@ export class LeaderboardService {
     console.log('DTO: ', selectedHighscore.id, selectedHighscore.nickname, selectedHighscore.gameId, selectedHighscore.score, selectedHighscore.date, selectedHighscore.time);
 
     this.socket.emit('highscoreDtoFromLeaderboard', selectedHighscore); // obsolete?
-    // CHANGE ROUTE TO COMMENT HERE ???
+    // CHANGE ROUTE TO COMMENT HERE
     console.log('Navigate to Comment url');
-    this.router.navigate(['/comment'], {state: {data: selectedHighscore}}); // {data: {selectedHighscore}}});
+    this.router.navigate(['/comment'], {state: {data: selectedHighscore}});
   }
 
   listenForErrors(): Observable<string> {

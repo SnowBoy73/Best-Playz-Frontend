@@ -1,14 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {LeaderboardService} from './shared/leaderboard.service';
-import {CommentModel} from '../comment/shared/comment.model';
 import {take, takeUntil} from 'rxjs/operators';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {HighscoreModel} from './shared/highscore.model';
-import {CommentDto} from '../comment/shared/comment.dto';
 import {StorageService} from '../shared/storage.service';
 import {HighscoreDto} from './shared/highscore.dto';
-import {ClientModel} from '../comment/shared/client.model';
 
 @Component({
   selector: 'app-leaderboard',

@@ -9,6 +9,7 @@ import {environment} from '../environments/environment';
 import {NgxsModule} from '@ngxs/store';
 import {CommentState} from './comment/state/comment.state';
 import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
+import {MatListModule} from '@angular/material/list';
 
 const config: SocketIoConfig = { url: environment.backendUrl, options: {} };
 
@@ -25,7 +26,7 @@ const config: SocketIoConfig = { url: environment.backendUrl, options: {} };
     NgxsModule.forRoot([], {
       developmentMode: !environment.production
     }),
-    NgxsLoggerPluginModule.forRoot()
+    NgxsLoggerPluginModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

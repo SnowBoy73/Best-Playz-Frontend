@@ -1,14 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {CommentService} from './comment/shared/comment.service';
 import {StorageService} from './shared/storage.service';
-import {CommentComponent} from './comment/comment.component';
 import {ClientModel} from './comment/shared/client.model';
 import {FormControl} from '@angular/forms';
 import {Socket} from 'ngx-socket-io';
 import {loginDto} from './comment/shared/login.dto';
 import {WelcomeDto} from './comment/shared/welcome.dto';
 import {takeUntil} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -23,19 +22,24 @@ export class AppComponent implements OnInit{
   loginRequest: boolean | undefined;
   loginFC = new FormControl('');
   unsubscribe$ = new Subject();
+  gameSelected = 'Super Ninja Dude';
+  allGames: string[] = ['Super Ninja Dude', 'Radical CakeMan', 'Crazy Smurf Basher', 'Happy Flower Waterer'];
+  chosenGame: string | undefined;
+  error = '';
 
   constructor(
+    public router: Router,
     private storageService: StorageService,
     private socket: Socket,
   ) { }
 
   ngOnInit(): void {
+    this.error = '';
     this.listenForCommentWelcome()
       .pipe(
         takeUntil(this.unsubscribe$)
       )
       .subscribe(welcome => {
-        // this.comments = welcome.comments;
         this.loggedInUser = welcome.client;
         this.storageService.saveClient(this.loggedInUser);
         console.log('saved LIU: ', this.loggedInUser.nickname);
@@ -56,15 +60,8 @@ export class AppComponent implements OnInit{
     console.log('app comp - listenForCommentWelcome called');
     return this.socket
       .fromEvent<WelcomeDto>('welcome');
-    // location.reload(); // doesn't work
-
   }
-    /*
-    // Can put global error listening here (from comment service)!!
-    listenForErrors(): Observable<string> {
-      return this.socket
-        .fromEvent<string>('error');
-   */
+
   login(): void {
     this.loginRequest = true;
   }
@@ -103,4 +100,26 @@ export class AppComponent implements OnInit{
   disconnect(): void{ // to service?
     this.socket.disconnect();
   }
+
+
+
+  onNgModelChange($event: any): any {
+    console.log('game onNgModelChange called');
+
+    if (this.gameSelected.length !== 0)
+    {
+      const gameId = this.gameSelected[0];
+      this.chosenGame = this.allGames.find(cg => cg === gameId);
+      if (this.chosenGame === 'Super Ninja Dude') {
+        this.error = '';
+        this.router.navigate(['/leaderboard'], {state: {data: gameId}});
+      } else {
+        this.error = 'Error - this game is not yet supported';
+
+      }
+    }
+  }
+
+
+
 }
