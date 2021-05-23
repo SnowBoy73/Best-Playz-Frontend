@@ -32,7 +32,7 @@ export class CommentService {
     this.socket.emit('requestHighscoreComments', selectedHighscore);
   }
 
-  listenForHighscoreComments(): Observable<CommentModel[]> {  // Dto??
+  listenForHighscoreComments(): Observable<CommentModel[]> {
     return this.socket
       .fromEvent<CommentModel[]>('highscoreComments');
   }

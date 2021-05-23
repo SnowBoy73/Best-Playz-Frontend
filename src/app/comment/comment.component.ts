@@ -10,6 +10,9 @@ import {StorageService} from '../shared/storage.service';
 import {CommentDto} from './shared/comment.dto';
 import {HighscoreModel} from '../leaderboard/shared/highscore.model';
 import {HighscoreDto} from '../leaderboard/shared/highscore.dto';
+import {CommentState} from './state/comment.state';
+import {Select, Store} from '@ngxs/store';
+import {ListenForClients, ListenForHighscoreComments, StopListeningForClients} from './state/comment.actions';
 
 @Component({
   selector: 'app-comment',
@@ -21,6 +24,7 @@ export class CommentComponent implements OnInit, OnDestroy {
   comments: any[] = [];
   unsubscribe$ = new Subject();
   loginFC = new FormControl('');
+  @Select(CommentState.clients)
   clients$: Observable<ClientModel[]> | undefined;
   client: ClientModel | undefined;
   error$: Observable<string> | undefined; // move to app.component for global errors
@@ -28,10 +32,10 @@ export class CommentComponent implements OnInit, OnDestroy {
   selectedHighscore: HighscoreModel | undefined;
   isLoggedIn = localStorage.length;
   userNickname: string | undefined;
-  loggedInUser: ClientModel | undefined;
 
 
-  constructor(private commentService: CommentService,
+  constructor(private store: Store,
+              private commentService: CommentService,
               private storageService: StorageService) {
   }
 
@@ -55,7 +59,10 @@ export class CommentComponent implements OnInit, OnDestroy {
         this.comments = comments;
       });
     this.error$ = this.commentService.listenForErrors(); // move to app.component for global errors
-    this.clients$ = this.commentService.listenForClients(); //
+    // new State MGMT bit
+    // this.clients$ = this.commentService.listenForClients(); //
+    this.store.dispatch(new ListenForClients()); // NEW and EXPERIMENTAL - seems to work!!
+    this.store.dispatch(new ListenForHighscoreComments()); // NEW and EXPERIMENTAL - seems to work!!
 
 
     this.commentService.listenForNewComment()
@@ -100,17 +107,19 @@ export class CommentComponent implements OnInit, OnDestroy {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     this.commentService.disconnect();  // Removed to stay connected between routes
+    this.store.dispatch(new StopListeningForClients());
   }
 
   postComment(): void {
     console.log('dto nickname: ', this.storageService.loadClient()?.nickname);
-    // loggedInUser = this.storageService.loadCommentClient();
     if (this.storageService.loadClient()?.nickname) {
       if (this.commentFC.value) {
         if (this.selectedHighscore) {
 
+         // this.store.dispatch(new ListenForClients()); // NEW and EXPERIMENTAL
+
           const commentDto: CommentDto = {
-            highscoreId: this.selectedHighscore?.id,  // NEW !!!
+            highscoreId: this.selectedHighscore?.id,
             text: this.commentFC.value,
             sender: this.storageService.loadClient()?.nickname,
           };
