@@ -7,9 +7,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import {environment} from '../environments/environment';
 import {NgxsModule} from '@ngxs/store';
-import {CommentState} from './comment/state/comment.state';
 import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
-import {MatListModule} from '@angular/material/list';
+import {AngularFireModule} from '@angular/fire';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
 
 const config: SocketIoConfig = { url: environment.backendUrl, options: {} };
 
@@ -27,6 +27,8 @@ const config: SocketIoConfig = { url: environment.backendUrl, options: {} };
       developmentMode: !environment.production
     }),
     NgxsLoggerPluginModule.forRoot(),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]

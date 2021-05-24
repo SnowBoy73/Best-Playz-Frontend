@@ -8,6 +8,7 @@ import {loginDto} from './comment/shared/login.dto';
 import {WelcomeDto} from './comment/shared/welcome.dto';
 import {takeUntil} from 'rxjs/operators';
 import {Router} from '@angular/router';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +29,7 @@ export class AppComponent implements OnInit{
   error = '';
 
   constructor(
+    firestore: AngularFirestore,
     public router: Router,
     private storageService: StorageService,
     private socket: Socket,

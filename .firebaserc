@@ -1,5 +1,11 @@
 {
-  "projects": {
-    "default": "best-playz-frontend-fb-cf2c0"
+  "targets": {
+    "best-playz-frontend": {
+      "hosting": {
+        "Best-Playz-Frontend": [
+          "best-playz-frontend"
+        ]
+      }
+    }
   }
 }
