@@ -1,11 +1,5 @@
 {
-  "targets": {
-    "best-playz-frontend": {
-      "hosting": {
-        "Best-Playz-Frontend": [
-          "best-playz-frontend"
-        ]
-      }
-    }
+  "projects": {
+    "default": "best-playz-frontend"
   }
 }
