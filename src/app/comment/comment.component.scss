@@ -18,26 +18,30 @@
 
 .score-text {
   text-align: center;
-  color: seagreen;
+  color: darkgreen;
   font-size:32px;
   font-family: "sans-serif";
   padding-bottom: 10px;
 }
 
 .player-text {
-  text-align: center;
-  color: darkslategray;
-  font-size:32px;
+  padding: 12px;
+  color: firebrick;
+  font-size:40px;
   font-family: "American Typewriter";
-  padding-bottom: 10px;
+  padding: 12px;
+  text-align: center;
 }
 
 .time-text {
   text-align: center;
-  color: lightblue;
+  color: peru;
   font-size:18px;
   font-family: "American Typewriter";
+  padding-top: 12px;
+
 }
+
 .mat-card-margin {
   margin: 10px;
 }

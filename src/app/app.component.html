@@ -8,11 +8,11 @@
         </a>
       </nav>
       <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn == 0">
-        <h4>Not logged in</h4>
+        <h4 class="login-text">Not logged in</h4>
         <button (click)="login()">LogIn</button>
       </div>
       <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn !== 0">
-        <h4 > Logged in as {{loggedInUser?.nickname}} </h4>
+        <h4 class="login-text"> Logged in as {{loggedInUser?.nickname}} </h4>
         <button (click)="logout()">Logout</button>
       </div>
     </div>

@@ -2,7 +2,7 @@
   <div fxLayout="column" fxFlex="30" class="mat-card-margin">
     <mat-card fxFlex>
       <mat-card-header>
-        <span mat-line class="typewriter-text-sm-1">Game: </span>
+        <div mat-line class="typewriter-text-sm-1">Game: </div>
         <h1></h1>
         <div mat-line class="gameId-text">{{selectedGame}}</div>
         <h1></h1>
@@ -16,7 +16,7 @@
         <div fxLayoutAlign="center">
         <span class="trophy-icon">
         <mat-icon mat-list-icon>emoji_events</mat-icon>
-        <span class="first-text" *ngIf="highscores.length>0">1st: {{highscores[0].nickname}} {{highscores[0].score }}</span>
+        <span class="first-text" *ngIf="highscores.length>0">1st: {{highscores[0].nickname}} {{highscores[0].score}}</span>
         <mat-icon mat-list-icon>emoji_events</mat-icon>
           </span>
         </div>
@@ -35,7 +35,6 @@
       <mat-card-header>
         <h2>HighScores for {{selectedGame}}</h2>
       </mat-card-header>
-
       <mat-card-content fxFlex fxLayout="column">
         <mat-selection-list fxFlex class="scrollable-mat-list"
                             #hiscores [(ngModel)]="highscoreSelected" (ngModelChange)="onNgModelChange($event)" [multiple]="false">
@@ -49,43 +48,19 @@
           </mat-list-option>
         </mat-selection-list>
       </mat-card-content>
-
       <mat-card-actions>
-        <div *ngIf="isLoggedIn">
-          <mat-form-field class="primary-text-colour" fxFlex="40">
-            <mat-label>Post a mock Highscore (number)</mat-label>
-            <input matInput type="text" [formControl]="highscoreFC">
-            <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="postHighscore()">
-              <mat-icon>send</mat-icon>
-            </button>
-          </mat-form-field>
-        </div>
-        <div *ngIf="!isLoggedIn"
-          class="warn-text-colour"
-          style="font-family: cursive"
-          style="font-size: 14px">
-          You need to log in to post a mock highscore
-        </div>
       </mat-card-actions>
-
       <mat-card-footer fxFlex="30px" style="padding-left: 30px">
-        <!--<h5> storage = {{isLoggedIn}} nickname {{userNickname}}</h5>-->
         <div *ngIf="error$ | async as error"
              class="warn-text-colour"
              style="font-family: cursive"
              style="font-size: 14px">
           {{error}}
         </div>
-        <!--<div *ngIf="!socketId"
-             class="warn-text-colour"
-             style="font-family: cursive"
-             style="font-size: 14px">
-          You are not connected
-        </div>-->
       </mat-card-footer>
     </mat-card >
-
   </div>
+
 </div>
 
 
