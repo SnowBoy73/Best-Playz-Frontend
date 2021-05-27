@@ -2,24 +2,11 @@
 
   <div fxLayout="column" fxFill fxLayoutGap="10px"  *ngIf="loginRequest !== true">
     <div fxLayout="row">
-
-
       <nav mat-tab-nav-bar>
         <a mat-tab-link *ngFor="let link of links"
-           (click)="activeLink = link"
-
-          [active]="activeLink == link" [routerLink]="activeLink"> {{link}}
-
+           [routerLink]="link.link">{{link.label}}
         </a>
-
       </nav>
-
-
-
-
-      <a routerLink="/">Home</a>----
-      <a routerLink="/leaderboard">Leaderboard</a>----
-      <a routerLink="/comment">Comments</a>
       <div fxLayout="row" fxLayoutAlign="center center" fxFlex *ngIf="isLoggedIn == 0">
         <h4>Not logged in</h4>
         <button (click)="login()">LogIn</button>
