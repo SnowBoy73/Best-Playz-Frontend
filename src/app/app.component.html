@@ -72,16 +72,6 @@
       </mat-card-header>
       <mat-card-content>
 
-        <mat-selection-list fxFlex class="scrollable-mat-list"
-                            #games [(ngModel)]="gameSelected" (ngModelChange)="onNgModelChange($event)" [multiple]="false">
-          <mat-list-option *ngFor="let game of allGames"
-                           (click)="onNgModelChange(game)" [value]="game">
-            <mat-icon mat-list-icon>sports_esports</mat-icon>
-            <div mat-line class="comment-text">{{game}}</div>
-            <mat-divider></mat-divider>
-          </mat-list-option>
-        </mat-selection-list>
-
         <mat-form-field class="primary-text-colour" fxFlex>
           <mat-label>Enter Nickname</mat-label>
           <input matInput type="text" [formControl]="loginFC">
