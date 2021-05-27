@@ -10,6 +10,7 @@ import {NgxsModule} from '@ngxs/store';
 import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {MatTab, MatTabsModule} from '@angular/material/tabs';
 
 const config: SocketIoConfig = { url: environment.backendUrl, options: {} };
 
@@ -28,7 +29,8 @@ const config: SocketIoConfig = { url: environment.backendUrl, options: {} };
     }),
     NgxsLoggerPluginModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    MatTabsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

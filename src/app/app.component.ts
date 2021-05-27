@@ -8,7 +8,6 @@ import {loginDto} from './comment/shared/login.dto';
 import {WelcomeDto} from './comment/shared/welcome.dto';
 import {takeUntil} from 'rxjs/operators';
 import {Router} from '@angular/router';
-import {AngularFirestore} from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-root',
@@ -27,9 +26,10 @@ export class AppComponent implements OnInit{
   allGames: string[] = ['Super Ninja Dude', 'Radical CakeMan', 'Crazy Smurf Bash', 'Happy Flower Waterer'];
   chosenGame: string | undefined;
   error = '';
+  links: string[] = ['/', '/leaderboard', '/comment'];
+  activeLink: string | undefined;
 
   constructor(
-    firestore: AngularFirestore,
     public router: Router,
     private storageService: StorageService,
     private socket: Socket,
@@ -105,14 +105,20 @@ export class AppComponent implements OnInit{
 
 
 
-  onNgModelChange(game: string): any {
+  onNgModelChange($event: any): any {
     console.log('game onNgModelChange called');
 
-    if (game === 'Super Ninja Dude') {
-      this.error = '';
-      this.router.navigate(['/leaderboard'], {state: {data: game}});
-    } else {
-      this.error = 'Sorry - this game is not yet supported';
+    if (this.gameSelected.length !== 0)
+    {
+      const gameId = this.gameSelected[0];
+      this.chosenGame = this.allGames.find(cg => cg === gameId);
+      if (this.chosenGame === 'Super Ninja Dude') {
+        this.error = '';
+        this.router.navigate(['/leaderboard'], {state: {data: gameId}});
+      } else {
+        this.error = 'Error - this game is not yet supported';
+
+      }
     }
   }
 
