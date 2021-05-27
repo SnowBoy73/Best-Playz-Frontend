@@ -105,22 +105,37 @@ export class AppComponent implements OnInit{
 
 
 
-  onNgModelChange($event: any): any {
+    onNgModelChange(game: string): any {
+
+      if (game === 'Super Ninja Dude') {
+        this.error = '';
+        this.router.navigate(['/leaderboard'], {state: {data: game}});
+      } else {
+        this.error = 'Sorry - this game is not yet supported';
+      }
+    }
+    /*
+      onNgModelChange($event: any): any {
+
     console.log('game onNgModelChange called');
 
     if (this.gameSelected.length !== 0)
     {
       const gameId = this.gameSelected[0];
       this.chosenGame = this.allGames.find(cg => cg === gameId);
+      console.log('chosenGame ', this.chosenGame);
+
       if (this.chosenGame === 'Super Ninja Dude') {
         this.error = '';
         this.router.navigate(['/leaderboard'], {state: {data: gameId}});
       } else {
         this.error = 'Error - this game is not yet supported';
 
+
       }
     }
   }
+  */
 
 
 
