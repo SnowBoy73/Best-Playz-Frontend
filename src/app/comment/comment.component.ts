@@ -43,13 +43,13 @@ export class CommentComponent implements OnInit, OnDestroy {
     console.log('Comment Component Initialised');
     console.log('Logged in as: ', this.storageService.loadClient()?.nickname); //
     this.commentService.connect(); // MUY IMPORTANTÉ!!
-    this.userNickname = this.storageService.loadClient()?.nickname;
+    this.userNickname = this.storageService.loadClient()?.nickname;  // this.store.comment.client.nickname
     console.log('comment userNickname: ', this.storageService.loadClient()?.nickname);
-    this.selectedHighscore = history.state.data as HighscoreModel;
+    this.selectedHighscore = history.state.data as HighscoreModel; // angular rooter state.
     console.log('selectedHighscore!! = ', this.selectedHighscore);
 
     this.commentService.requestHighscoreComments(this.selectedHighscore);
-    this.commentService.listenForHighscoreComments()
+  /*  this.commentService.listenForHighscoreComments()  // web side version
       .pipe(
         take(1)
       )
@@ -57,12 +57,15 @@ export class CommentComponent implements OnInit, OnDestroy {
         console.log(comments);
         console.log(comments.length, ' comments received');
         this.comments = comments;
-      });
+      });*/
     this.error$ = this.commentService.listenForErrors(); // move to app.component for global errors
     // new State MGMT bit
     // this.clients$ = this.commentService.listenForClients(); //
+
+
     this.store.dispatch(new ListenForClients()); // NEW and EXPERIMENTAL - seems to work!!
     this.store.dispatch(new ListenForHighscoreComments()); // NEW and EXPERIMENTAL - seems to work!!
+    // get the stated. ---- this.comments = comments; old version
 
 
     this.commentService.listenForNewComment()

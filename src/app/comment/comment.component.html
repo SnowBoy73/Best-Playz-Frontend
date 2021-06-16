@@ -1,6 +1,8 @@
 <div fxLayout="row" fxFlex>
   <div fxLayout="column" fxFlex="30" class="mat-card-margin">
     <mat-card fxFlex>
+
+      <!-- Game Details -->
       <mat-card-header>
         <div *ngIf="!selectedHighscore">
           <h3 class="warn-text-colour">No Highscore selected</h3>
@@ -19,6 +21,8 @@
             <div mat-line class="time-text">on  {{selectedHighscore.date}}</div>
         </div>
       </mat-card-header>
+
+ <!-- list off online users. -->
       <mat-card-content>
         <h1></h1>
         <mat-divider></mat-divider>
@@ -36,6 +40,7 @@
     </mat-card>
   </div>
 
+<!-- this is contain the comments on the side. -->
   <div fxLayout="column" fxFlex="70">
     <mat-card fxFlex fxLayout="column" class="mat-card-margin">
       <mat-card-header>
@@ -51,6 +56,8 @@
           </mat-list-item>
         </mat-list>
       </mat-card-content>
+
+ <!-- posting comments -->
       <mat-card-actions>
         <div *ngIf="isLoggedIn">
           <mat-form-field class="primary-text-colour" fxFlex="40">
@@ -68,6 +75,8 @@
           You need to log in to post a comment
         </div>
       </mat-card-actions>
+
+<!-- errors footer under post comments. -->
       <mat-card-footer fxFlex="30px" style="padding-left: 30px">
         <div *ngIf="error$ | async as error"
              class="warn-text-colour"
